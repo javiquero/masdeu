@@ -1,0 +1,57 @@
+<template>
+    <div id="projects">
+        <section>
+            <div class="col1">
+                <div class="profile" style="text-align:center; padding-top:10px;">
+                    <h5 style="margin-bottom:20px;">Projects</h5>
+                    <div class="create-project">
+                        <button @click="createProject()" style="width:100%" class="button">Add project</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col2">
+                <ProjectsList :projects="projects"></ProjectsList>
+            </div>
+        </section>
+
+    </div>
+</template>
+
+<script>
+    import ProjectsList from '@/components/ProjectsList'
+    import {
+        mapState
+    } from 'vuex'
+    import moment from 'moment'
+
+    export default {
+        components: {
+            ProjectsList
+        },
+        data() {
+            return {}
+        },
+        computed: {
+            ...mapState(['projects']),
+        },
+        methods: {
+            createProject() {
+                this.$root.$emit('project:open', undefined);
+            },
+            
+        },
+        mounted() {}
+    }
+
+</script>
+
+<style lang="scss" scoped>
+    #projects {
+          a:hover {
+            color: white;
+        }
+    }
+
+  
+
+</style>

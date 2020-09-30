@@ -1,0 +1,34 @@
+@import 'global';
+@import 'layout';
+
+
+.c-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba($dark, 0.4);
+    z-index: 999;
+
+    .c-container {
+      position: relative;
+      max-width: 600px;
+      margin: 30vh auto 0;
+      padding: 2rem;
+      border-radius: 3px;
+      background: $white;
+      box-shadow: 0 0 20px 0 rgba($dark, 0.5);
+
+      a {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        padding: 5px;
+      }
+
+      .button {
+        margin-top: 1rem;
+      }
+    }
+  }

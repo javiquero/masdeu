@@ -1,0 +1,132 @@
+<template>
+    <div class="contact-modal c-modal" >
+        <div class="c-container" >
+            <a @click="close()">close</a>
+            <h3>Contact</h3>
+            <form @submit.prevent>
+                <div>
+                    <label for="cmname">Name</label>
+                    <input v-model.trim="contactData.name" type="text" placeholder="" id="cmname" />
+                </div>
+                <div>
+                    <label for="cmtype">Contact type</label>
+                    <type-contact :type.sync="contactData.type"></type-contact>
+                </div>
+                <div>
+                    <label for="cmaddress">Address</label>
+                    <input v-model.trim="contactData.address" type="text" placeholder="" id="cmaddress" />
+                </div>
+                <div>
+                    <label for="cmphone1">Phone number</label>
+                    <input v-model.trim="contactData.phone1" type="text" placeholder="" id="cmphone1" />
+                </div>
+                <div>
+                    <label for="cmphone2">Alternative phone number</label>
+                    <input v-model.trim="contactData.phone2" type="text" placeholder="" id="cmphone2" />
+                </div>
+                <div>
+                    <label for="cmemail">Email</label>
+                    <input v-model.trim="contactData.email" type="text" placeholder="" id="cmemail" />
+                </div>
+                <div>
+                    <label for="cmcomment">Comments</label>
+                    <textarea v-model.trim="contactData.comment" id="cmcomment"></textarea>
+                </div>
+
+                <button @click="addContact()" v-if="!contact || contact.id==undefined" :disabled="contactData.name == ''" class="button">add contact</button>
+                <button @click="saveContact()"  v-else :disabled="contactData == contact" class="button">save changes</button>
+            </form>
+        </div>
+    </div>
+</template>
+
+<script>
+    import TypeContact from "@/components/TypeContact"
+    export default {
+        components: {
+            TypeContact
+        },
+        props: ['contact'],
+        data() {
+            return {
+                mcontact: this.contact,
+                mode: 'add',
+                contactData: {
+                    name: '',
+                    address: '',
+                    phone1: '',
+                    phone2: '',
+                    type: [],
+                    email: '',
+                    comment: ''
+                }
+            }
+        },
+        watch: {
+            contact(val, oldval) {
+                if (this.contact == undefined) {
+                    this.mode = 'add';
+                    this.contactData = {
+                        name: '',
+                        address: '',
+                        phone1: '',
+                        phone2: '',
+                        type: [],
+                        email: '',
+                        comment: ''
+                    }
+                } else {
+                    this.mode = 'edit';
+                    this.contactData = {
+                        name: this.contact.name,
+                        address: this.contact.address,
+                        phone1: this.contact.phone1,
+                        phone2: this.contact.phone2,
+                        type: this.contact.type,
+                        email: this.contact.email,
+                        comment: this.contact.comment
+                    }
+                }
+            }
+        },
+        methods: {
+            async saveContact() {
+                this.contactData.id = this.contact.id;
+                this.$store.dispatch('saveContact', this.contactData)
+                // close modal
+                this.close();
+            },
+            async addContact() {
+                this.$store.dispatch('createContact', this.contactData)
+
+                // close modal
+				this.close();
+			},
+			close(){
+				this.contactData={
+					name: '',
+                    address: '',
+                    phone1: '',
+                    phone2: '',
+                    type: [],
+                    email: '',
+                    comment: ''
+                }
+				this.$emit('close')
+			}
+        }
+    }
+
+</script>
+
+<style lang="scss">
+	.contact-modal {
+		z-index: 99999;
+		.c-container{
+			margin: 10vh auto 0 !important;
+		}
+		h3: {
+			padding-bottom: 20px;
+		}
+	}
+</style>

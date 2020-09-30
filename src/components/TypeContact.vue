@@ -1,0 +1,49 @@
+<template>
+    <vue-tags ref="typeContact" :active="type" :all="allTags" :element-count-for-start-arrow-scrolling="3" :tab-index="1" :tag-color-default="'#30A0EE'" :colors-enabled="true" :tag-list-label="'Select an option'" :placeholder="'Select an option'" @on-tag-removed="onTagRemoved" @on-tag-added="onTagAdded" />
+</template>
+
+<script>
+    export default {
+        props: ['type'],
+        data() {
+            return {
+                allTags: [{
+                    "id": 0,
+                    "name": "Client",
+                    "slug": "client"
+                }, {
+                    "id": 1,
+                    "name": "Expert",
+                    "slug": "expert"
+                }]
+            }
+        },
+        methods: {
+            onTagRemoved(tag) {
+                let newVal = this.type.filter((t) => t.id != tag.id);
+                this.$emit('update:type', newVal);
+                this.$refs.typeContact.handleClickOutsideTagList({
+                    target: {
+                        closest() {}
+                    }
+                });
+            },
+            onTagAdded(val) {
+                if (!this.type.includes(val)) {
+                    let newVal = this.type;
+                    newVal.push(val)
+                    this.$emit('update:type', newVal);
+                    this.$refs.typeContact.handleClickOutsideTagList({
+                        target: {
+                            closest() {}
+                        }
+                    });
+                }
+            }
+        }
+    }
+</script>
+
+<style>
+
+</style>
