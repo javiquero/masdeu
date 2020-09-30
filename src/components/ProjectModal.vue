@@ -26,9 +26,17 @@
                     <label for="pcomment">Comments</label>
                     <textarea v-model.trim="projectData.comment" class="focusable" id="pcomment"></textarea>
                 </div>
+                 <div v-if="project && project.id!=undefined" >
+                    <label for="pcomment">Reports</label>
+                    <ReportsList :project="project"></ReportsList>
+                </div>
 
                 <button @click="addProject()" v-if="!project || project.id==undefined" :disabled="projectData.name == ''" class="button">add project</button>
-                <button @click="saveProject()"  v-else :disabled="projectData == project" class="button">save changes</button>
+                <div v-else>
+                    <button @click="saveProject()" :disabled="projectData == project" class="button">save changes</button>
+                    <button @click="createReport(project)"   style="margin-left: 20px;" class="button"><i class="fal fa-comment-alt-plus"></i>add report</button>   
+                </div>
+                
             </form>
         </div>
     </div>
@@ -38,10 +46,11 @@
 import {
         mapState
     } from 'vuex'
+    import ReportsList from '@/components/ReportsList'
     import DropdownMulti from '@/components/dropdownMulti'
     export default {
         components: {
-            DropdownMulti
+            DropdownMulti, ReportsList
         },
         props: ['project'],
         data() {
@@ -116,21 +125,24 @@ import {
                  this.close();
             },
             saveProject(){
-				this.projectData.id = this.project.id;
+                this.projectData.id = this.project.id;
                 this.$store.dispatch('saveProject', this.projectData)
                  this.close();
             },
+            createReport(project){
+                this.$root.$emit('report:open', {project:project, report: undefined});
+            },
             close(){
-				this.projectData={
-					name: '',
+                this.projectData={
+                    name: '',
                     address: '',
                     clients: [],
                     experts: [],
                     status: 'Active',
                     comment: ''
                 }
-				this.$emit('close')
-			}
+                this.$emit('close')
+            }
         },mounted() {
             this.refreshList(this.filter);
         }
@@ -139,12 +151,16 @@ import {
 </script>
 
 <style lang="scss">
-	.project-modal {
-		.c-container{
-			margin: 10vh auto 0 !important;
-		}
-		h3: {
-			padding-bottom: 20px;
-		}
-	}
+    .project-modal {
+        overflow-y: scroll;
+         i{
+                    margin-right:10px;
+                }
+        .c-container{
+            margin: 10vh auto 0 !important;
+        }
+        h3: {
+            padding-bottom: 20px;
+        }
+    }
 </style>

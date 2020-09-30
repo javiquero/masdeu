@@ -13,6 +13,10 @@
                 </div>
             </div>
             <div class="col2">
+                <!-- <div style="margin-bottom:20px;" v-show="projects.length>0">
+                     <h4 >Last report</h4>
+                     <ReportsList :project="projects?projects[0]:undefined"></ReportsList>
+                </div> -->
                 <div style="margin-bottom:20px;" v-show="projects.length>0">
                      <h4 >Last projects</h4>
                      <ProjectsList :limit="5" :projects="projects"></ProjectsList>
@@ -31,11 +35,13 @@
     import {
         mapState
     } from 'vuex'
+    // import ReportsList from '@/components/ReportsList'
     import ProjectsList from '@/components/ProjectsList'
     import ContactsList from '@/components/ContactsList'
 
     export default {
         components: {
+            // ReportsList,
             ProjectsList,
             ContactsList
         },

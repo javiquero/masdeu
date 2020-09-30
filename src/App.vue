@@ -67,7 +67,7 @@
 			},
 			hideReport(){
 				this.visibleReport=false;
-				this.selectedProject = undefined;
+				if (!this.visibleProject) this.selectedProject = undefined;
 				this.selectedReport = undefined;
 			}
 		},

@@ -183,7 +183,6 @@ const store = new Vuex.Store({
         async saveReport({ state }, data) {		
             await fb.reportsCollection.doc(data.id).update({
                 lastUpdateOn: new Date(),
-                idProject: data.idProject,
                 comment: data.comment
             })
             
