@@ -83,6 +83,10 @@
 
 <style lang="scss" scoped>
     #contacts {
+         @media only screen and (max-width: 600px) {
+                .col1{padding-top:0px; padding-bottom: 0px}
+                .profile{padding-bottom:10px;}
+            }
         .filter {
             button {
                 padding: 5px;
@@ -90,7 +94,13 @@
                 min-width: 100px;
                 ;
             }
-
+            @media only screen and (max-width: 600px) {
+                button {
+                    padding: 5px 15px;
+                    margin-right: 10px;
+                    min-width: 10px;
+                }
+            }
             margin-bottom:10px;
         }
     }

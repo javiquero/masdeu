@@ -50,6 +50,10 @@
           a:hover {
             color: white;
         }
+         @media only screen and (max-width: 600px) {
+                .col1{padding-top:0px; padding-bottom: 0px}
+                .profile{padding-bottom:10px;}
+            }
     }
 
   

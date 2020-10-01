@@ -13,10 +13,10 @@
                 </div>
                 <div style="width:30%;">
                     <a v-if="contact.phone1 || contact.phone2" :href="'tel:'+ contact.phone1 || contact.phone2" class="button">
-                        <i class="fal fa-phone" ></i>Call
+                        <i class="fal fa-phone" ></i><p>Call</p> 
                     </a>
                     <a v-if="contact.email" :href="'mailto:'+ contact.email" style="margin-top:10px" class="button">
-						<i class="fal fa-envelope" ></i>Email
+						<i class="fal fa-envelope" ></i><p>Email</p> 
 					</a>
                 </div>
             </div>
@@ -79,13 +79,19 @@
 		.post {
 			display:flex;			
 			h5 {display:inline-block; margin-right: 20px !important;  }
+			@media only screen and (max-width: 600px) {
+				h5 {max-width:100px;  white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+			}
 			.tag {
+				position: absolute;
 				display:inline-block; font-size: 12px; background-color:#eee; padding: 5px; border-radius: 3px; margin-right:10px !important;
 			}
 			a{
 				width:100%; min-width: auto; display: inline-block; text-align: center; 
-				i{
-					margin-right:10px;
+				i{ margin-right:10px; }
+				@media only screen and (max-width: 600px) {
+					i{ margin-right:0px; }
+					p { display:none; }
 				}
 			}
 		}

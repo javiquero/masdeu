@@ -3,12 +3,12 @@
         <div v-if="projects && projects.length">
             <div v-for="project in list" :key="project.id" class="post" >
                 <div style="width:70%" @click="viewproject(project)">
-                    <h5>{{ project.name | trimLength}}</h5> <LabelNumReports :project="project"></LabelNumReports>
+                    <h5>{{ project.name | trimLength}}</h5> <LabelNumReports style="position: absolute;" :project="project"></LabelNumReports>
                     <span>{{ project.createdOn | formatDate }}</span>
                     <p>{{ project.address | trimLength }}</p>
                 </div>
                 <div style="width:30%;">
-                    <button @click="createReport(project)"  class="button"><i class="fal fa-comment-alt-plus" ></i>add report</button>                   
+                    <button @click="createReport(project)"  class="button"><i class="fal fa-comment-alt-plus" ></i><p>add </p> report </button>                   
                 </div>
             </div>
              <router-link v-if="limit!=undefined &&  list.length!=projects.length" to="/projects">Show all projects</router-link>
@@ -72,14 +72,23 @@
         .router-link-active{
             margin-top:20px;
         }
+        
         .post {
             display:flex;			
             h5 {display:inline-block; margin-right: 20px !important;  }
-            
+            @media only screen and (max-width: 600px) {
+
+                h5 {max-width:100px;  white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+            }
             button{
                 width:100%; min-width: auto; display: inline-block; text-align: center; 
-                i{
-                    margin-right:10px;
+                i{ margin-right:10px; }
+                p{
+                    display: inline;
+                }
+                @media only screen and (max-width: 768px) {
+                    i{ margin-right:0px; }
+                    p { display:none; }
                 }
             }
         }
