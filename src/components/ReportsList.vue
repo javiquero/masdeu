@@ -68,10 +68,10 @@
                 return moment(date).fromNow()
             },
             trimLength(val) {
-                if (val.length < 500) {
+                if (val.length < 50) {
                     return val
                 }
-                return `${val.substring(0, 500)}...`
+                return `${val.substring(0, 50)}...`
             }
         }
     }
@@ -84,6 +84,9 @@ $dark: #34495E;
 $white: #fff;
     .reports-list {
         .post {
+             @media only screen and (max-width: 600px) {
+                 padding:10px !important;
+             }
             border: 1px solid #e6ecf0;
             border-bottom: 0;
             font-size: 14px;

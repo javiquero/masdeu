@@ -260,8 +260,7 @@ const store = new Vuex.Store({
     },
     getters: {
         getContactById: (state) => (id) => {
-            console.log(id, state.contacts)
-            return state.contacts.find(todo => todo.id === id)
+           return state.contacts.find(todo => todo.id === id)
         }
     }
 })
