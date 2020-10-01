@@ -34,7 +34,11 @@
                 </div>
 
                 <button @click="addContact()" v-if="!contact || contact.id==undefined" :disabled="contactData.name == ''" class="button">add contact</button>
-                <button @click="saveContact()"  v-else :disabled="contactData == contact" class="button">save changes</button>
+				<div v-else>
+					<button @click="saveContact()" :disabled="contactData == contact" class="button">save changes</button>
+					<button @click="deleteContact()" style="margin-left:10px;" class="button danger">delete</button>
+				</div>
+               
             </form>
         </div>
     </div>
@@ -100,6 +104,11 @@
                 this.$store.dispatch('createContact', this.contactData)
 
                 // close modal
+				this.close();
+			},
+			async deleteContact(){
+				this.contactData.id = this.contact.id;
+				this.$store.dispatch('deleteContact', this.contactData)
 				this.close();
 			},
 			close(){

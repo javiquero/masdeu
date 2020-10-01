@@ -145,6 +145,9 @@ const store = new Vuex.Store({
             })
             
         },
+        async deleteContact({ state }, data) {		
+            await fb.contactsCollection.doc(data.id).delete()            
+        },
         async createProject({ state }, data) {
             await fb.projectsCollection.add({
                 createdOn: new Date(),
@@ -170,6 +173,15 @@ const store = new Vuex.Store({
                 comment: data.comment
             })
         },
+        async deleteProject({ state }, data) {		
+            await fb.projectsCollection.doc(data.id).delete()  
+            
+            const reportsDocs = await fb.reportsCollection.where('idProject', '==', data.id).get()
+            reportsDocs.forEach(doc => {
+                fb.reportsCollection.doc(doc.id).delete();
+            })
+            
+        },
         async createReport({ state }, data) {
             await fb.reportsCollection.add({
                 createdOn: new Date(),
@@ -185,9 +197,10 @@ const store = new Vuex.Store({
                 lastUpdateOn: new Date(),
                 comment: data.comment
             })
-            
         },
-        
+        async deleteReport({ state }, data) {		
+            await fb.reportsCollection.doc(data.id).delete()            
+        },
 
         
         async likePost({

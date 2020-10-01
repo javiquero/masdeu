@@ -32,9 +32,11 @@
                 </div>
 
                 <button @click="addProject()" v-if="!project || project.id==undefined" :disabled="projectData.name == ''" class="button">add project</button>
-                <div v-else>
+                <div v-else> <button @click="createReport(project)"   style="" class="button"><i class="fal fa-comment-alt-plus"></i>add report</button>   
+                <br>
                     <button @click="saveProject()" :disabled="projectData == project" class="button">save changes</button>
-                    <button @click="createReport(project)"   style="margin-left: 20px;" class="button"><i class="fal fa-comment-alt-plus"></i>add report</button>   
+                   
+                    <button @click="deleteProject()" style="margin-left:10px;" class="button danger">delete</button>
                 </div>
                 
             </form>
@@ -128,6 +130,11 @@ import {
                 this.projectData.id = this.project.id;
                 this.$store.dispatch('saveProject', this.projectData)
                  this.close();
+            },
+             deleteProject(){
+                this.projectData.id = this.project.id;
+                this.$store.dispatch('deleteProject', this.projectData)
+                this.close()
             },
             createReport(project){
                 this.$root.$emit('report:open', {project:project, report: undefined});

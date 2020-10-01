@@ -99,28 +99,56 @@
 					cursorY += lineSpacing;
 				})
 			},
+			addWrappedTextJustify({text, textWidth, doc, fontSize = 10, fontType = 'normal', lineSpacing = 7, xPosition = 10, initialYPosition = 10, pageWrapInitialYPosition = 10}) {
+				let p = text.split("\n");
+				let pageHeight = doc.internal.pageSize.height - 20; 
+				doc.setFontSize(fontSize);
+				let cursorY = initialYPosition;
+
+				p.forEach(texto => {
+					let textLines = doc.splitTextToSize(texto, textWidth); // Split the text into lines
+					// doc.setFontType(fontType); <<-- https://raw.githack.com/MrRio/jsPDF/master/docs/jsPDF.html#setFont
+					
+					if ((cursorY + (lineSpacing*textLines.length))> pageHeight) { // Auto-paging
+						doc.addPage();
+						cursorY = pageWrapInitialYPosition;
+					}
+	
+
+					doc.text(texto , xPosition, cursorY, { maxWidth: 170, lineHeightFactor: 1.5, align: "justify" });
+					cursorY +=  lineSpacing*textLines.length;
+				})
+			},
+			printBlockText(doc, text){
+				let p = text.split("\n");
+				
+				console.log(p);
+			},
             viewPDF() {
                     const doc = new jsPDF({
                         orientation: "portrait"
 					});
+					
 					doc.setFontSize(30).text(this.project.name, 40, 35);
 					doc.setFontSize(15).text(this.project.address, 40, 42);
 					doc.addImage("logo.png", "PNG", 15, 23, 20, 20);
 					doc.setTextColor(150).setFontSize(13).text(moment(this.report.createdOn.toDate()).format('LL'), 20, 65);
 					doc.setTextColor(0);
-					doc.text(this.reportData.comment, 20, 75, { maxWidth: 160, lineHeightFactor: 1.5, align: "justify" });
 					
-					// this.addWrappedText({
-					// 	text: this.reportData.comment, // Put a really long string here
-					// 	textWidth: 180,
-					// 	doc,
-					// 	fontSize: '12',
-					// 	fontType: 'normal',
-					// 	lineSpacing: 7,               // Space between lines
-					// 	xPosition: 20,                // Text offset from left of document
-					// 	initialYPosition: 75,         // Initial offset from top of document; set based on prior objects in document
-					// 	pageWrapInitialYPosition: 30  // Initial offset from top of document when page-wrapping
-					// });  
+					// doc.text(this.reportData.comment, 20, 75, { maxWidth: 170, lineHeightFactor: 1.5, align: "justify" });
+					// this.printBlockText(doc, this.reportData.comment);
+					
+					this.addWrappedTextJustify({
+						text: this.reportData.comment, // Put a really long string here
+						textWidth: 170,
+						doc,
+						fontSize: '12',
+						fontType: 'normal',
+						lineSpacing: 7,               // Space between lines
+						xPosition: 20,                // Text offset from left of document
+						initialYPosition: 75,         // Initial offset from top of document; set based on prior objects in document
+						pageWrapInitialYPosition: 30  // Initial offset from top of document when page-wrapping
+					});  
 					
                     doc.save(`test.pdf`);
                 

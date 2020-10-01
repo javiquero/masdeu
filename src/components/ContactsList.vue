@@ -89,6 +89,7 @@
 			a{
 				width:100%; min-width: auto; display: inline-block; text-align: center; 
 				i{ margin-right:10px; }
+				p { display:inline; }
 				@media only screen and (max-width: 600px) {
 					i{ margin-right:0px; }
 					p { display:none; }

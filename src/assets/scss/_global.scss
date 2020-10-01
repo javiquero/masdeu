@@ -130,6 +130,12 @@ section {
 }
 
 .button {
+	&.danger{
+		background: $error;
+		&:hover {
+			background: lighten($error, 5%);
+		}
+	}
 	background: $primary;
 	border: 0;
 	outline: 0;
