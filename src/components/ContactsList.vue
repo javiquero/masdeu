@@ -49,9 +49,7 @@
                 this.$root.$emit('contact:open', contact);
             }
 		},
-		mounted() {
-			console.log(this.$i18n.locale);
-		},
+		
         filters: {
             formatDate(val, locale) {
                 if (!val) {

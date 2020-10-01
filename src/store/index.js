@@ -261,7 +261,17 @@ const store = new Vuex.Store({
     getters: {
         getContactById: (state) => (id) => {
            return state.contacts.find(todo => todo.id === id)
-        }
+        },
+        contactInProject: (state) => async (id) => {
+            let r = [];
+            await Promise.all(state.projects.map(async p => { 
+                await Promise.all(
+                    p.clients.map(c => { if (c == id) if (!r.includes(p)) r.push(p) }),
+                    p.experts.map(c => { if (c == id) if (!r.includes(p)) r.push(p) })
+                )
+            }))
+            return r;
+         },
     }
 })
 

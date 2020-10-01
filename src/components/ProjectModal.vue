@@ -144,9 +144,12 @@ import {
                  this.close();
             },
              deleteProject(){
-                this.projectData.id = this.project.id;
-                this.$store.dispatch('deleteProject', this.projectData)
-                this.close()
+                var r = confirm(this.$t("AreYouSureYouWantToRemoveTheProject"));
+                if (r == true) {
+                    this.projectData.id = this.project.id;
+                    this.$store.dispatch('deleteProject', this.projectData)
+                    this.close()
+                }                        
             },
             createReport(project){
                 this.$root.$emit('report:open', {project:project, report: undefined});

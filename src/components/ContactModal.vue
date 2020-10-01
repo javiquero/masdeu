@@ -108,8 +108,16 @@
 			},
 			async deleteContact(){
 				this.contactData.id = this.contact.id;
-				this.$store.dispatch('deleteContact', this.contactData)
-				this.close();
+				let s = await this.$store.getters.contactInProject(this.contact.id);
+				if (s.length>0) {
+					alert(this.$t("SorryThisContactIsIn") + s.length + " " + this.$t("Projects") + ". \n" + this.$t("UnableToDeleteRecord") + ".");
+				}else{
+					var r = confirm(this.$t("AreYouSureYouWantToRemoveTheContact"));
+					if (r == true) {
+						this.$store.dispatch('deleteContact', this.contactData)
+						this.close();
+					}
+				}
 			},
 			close(){
 				this.contactData={

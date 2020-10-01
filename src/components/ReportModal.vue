@@ -202,9 +202,12 @@
                 
             },
             deleteReport(){
-                this.reportData.id = this.report.id;
-				this.$store.dispatch('deleteReport', this.reportData)
-				this.close();
+                var r = confirm(this.$t("AreYouSureYouWantToRemoveTheReport"));
+                if (r == true) {
+                    this.reportData.id = this.report.id;
+                    this.$store.dispatch('deleteReport', this.reportData)
+                    this.close();
+                }              
             },
             close() {
                 this.reportData = {

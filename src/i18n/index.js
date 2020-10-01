@@ -43,8 +43,12 @@ const mesasges = {
 		WhatDoYouWant: "What do you want to do today ?",
 		Hi: "Hi",
 		LastProjects: "Last projects",
-		LastContacts: "Last contacts"
-
+		LastContacts: "Last contacts",
+		SorryThisContactIsIn: "Sorry this contact is involved in",
+		UnableToDeleteRecord: "Unable to delete record",
+		AreYouSureYouWantToRemoveTheContact: "Are you sure you want to remove the contact?",
+		AreYouSureYouWantToRemoveTheReport: "Are you sure you want to remove the report?",
+		AreYouSureYouWantToRemoveTheProject: "Are you sure you want to remove the project?"
 	},
 	ca: {
 		Contacts: "Contactes",
@@ -90,7 +94,12 @@ const mesasges = {
 		WhatDoYouWant: "Què vols fer avui ?",
 		Hi: "Hola",
 		LastProjects: "Darrers projectes",
-		LastContacts: "Darrers contactes"
+		LastContacts: "Darrers contactes",
+		SorryThisContactIsIn: "Ho sentim aquest contacte hi participa a ",
+		UnableToDeleteRecord: "No es pot suprimir el registre",
+		AreYouSureYouWantToRemoveTheContact: "Estàs segur que vols eliminar el contacte?",
+		AreYouSureYouWantToRemoveTheReport: "Estàs segur que vols eliminar el informe?",
+		AreYouSureYouWantToRemoveTheProject: "Estàs segur que vols eliminar el projecte?"
 
 		
 	}
