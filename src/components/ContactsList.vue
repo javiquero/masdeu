@@ -5,26 +5,26 @@
                 <div style="width:70%" @click="viewContact(contact)">
                     <h5 >{{ contact.name | trimLength}}</h5> 
 					<p class="tag" v-for="type in contact.type" :key="type.id" >
-						{{type.name}}
+						{{ $t(type.name) }}
 					</p>
-                    <span>{{ contact.createdOn | formatDate }}</span>
+                    <span>{{ contact.createdOn | formatDate($i18n.locale) }}</span>
                     <p>{{ contact.address | trimLength }}</p>
                     <p>{{ contact.phone1 | trimLength }}</p>
                 </div>
                 <div style="width:30%;">
                     <a v-if="contact.phone1 || contact.phone2" :href="'tel:'+ contact.phone1 || contact.phone2" class="button">
-                        <i class="fal fa-phone" ></i><p>Call</p> 
+                        <i class="fal fa-phone" ></i><p>{{ $t("Call") }}</p> 
                     </a>
                     <a v-if="contact.email" :href="'mailto:'+ contact.email" style="margin-top:10px" class="button">
-						<i class="fal fa-envelope" ></i><p>Email</p> 
+						<i class="fal fa-envelope" ></i><p>{{ $t("Email") }}</p> 
 					</a>
                 </div>
             </div>
 
-             <router-link  v-if="limit!=undefined && list.length!=contacts.length" to="/contacts">Show all contacts</router-link>
+             <router-link  v-if="limit!=undefined && list.length!=contacts.length" to="/contacts">{{ $t("Show_all_contacts") }}</router-link>
         </div>
         <div v-else>
-            <p class="no-results">There are currently no contacts</p>
+            <p class="no-results">{{ $t("No_contacts") }}</p>
         </div>
     </div>
 </template>
@@ -48,15 +48,18 @@
             viewContact(contact) {
                 this.$root.$emit('contact:open', contact);
             }
-        },
+		},
+		mounted() {
+			console.log(this.$i18n.locale);
+		},
         filters: {
-            formatDate(val) {
+            formatDate(val, locale) {
                 if (!val) {
                     return '-'
                 }
 
-                let date = val.toDate()
-                return moment(date).fromNow()
+				let date = val.toDate()
+				return moment(date).locale(locale).fromNow()
             },
             trimLength(val) {
                 if (val.length < 200) {

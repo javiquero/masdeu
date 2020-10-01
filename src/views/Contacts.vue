@@ -3,18 +3,18 @@
         <section>
             <div class="col1">
                 <div class="profile" style="text-align:center; padding-top:10px;">
-                    <h5 style="margin-bottom:20px;">Contacts</h5>
+                    <h5 style="margin-bottom:20px;">{{ $t("Contacts") }}</h5>
                     <div class="create-contact">
-                        <button @click="createContact()" style="width:100%" class="button">Add contact</button>
+                        <button @click="createContact()" style="width:100%" class="button">{{ $t("Add_contact") }}</button>
                     </div>
                 </div>
             </div>
             <div class="col2">
                 <div class="filter">
-                    Show :
-                    <button @click="refreshList('All')" :disabled="filter=='All'" class="button" style="margin-right:10px;">All</button>
-                    <button @click="refreshList('clients')" :disabled="filter=='clients'" class="button">Clients</button>
-                    <button @click="refreshList('experts')" :disabled="filter=='experts'" class="button">Experts</button>
+                    {{$t("Show")}} :
+                    <button @click="refreshList('All')" :disabled="filter=='All'" class="button" style="margin-right:10px;">{{$t("All")}}</button>
+                    <button @click="refreshList('clients')" :disabled="filter=='clients'" class="button">{{$t("Clients")}}</button>
+                    <button @click="refreshList('experts')" :disabled="filter=='experts'" class="button">{{$t("Experts")}}</button>
                 </div>
                 <ContactsList :contacts="contactsList"></ContactsList>
 

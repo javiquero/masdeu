@@ -20,11 +20,11 @@
                 </li>
                 <li v-if="allowadd" @mouseenter="e => e.target.classList.toggle('highlighted')" @mousemove="elementSelected=undefined" @click="add(search)" @mouseleave="e => e.target.classList.toggle('highlighted')">
                     <div class="content">
-                        <i class="far fa-plus"></i><span>Añadir: </span><span class="search-value">{{search}}</span>
+                        <i class="far fa-plus"></i><span>{{ $t("Add")}}: </span><span class="search-value">{{search}}</span>
                     </div>
                 </li>
             </ul>
-            <span v-if="search==''" class="instructions">Empieza a escribir para buscar {{allowadd?' o añadir un nuevo registro':''}} </span>
+            <span v-if="search==''" class="instructions">{{$t("Start_typing_to_find")}}{{allowadd?$t('Or_add_new_record'):''}} </span>
         </div>
     </div>
 </template>
@@ -39,7 +39,7 @@
             },
             placeholder: {
                 type: String,
-                default: "Selecciona los elementos"
+                default: "Select elements"
             },
             value: {
                 type: Array

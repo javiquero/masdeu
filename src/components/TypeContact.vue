@@ -1,6 +1,6 @@
 <template>
 <div class="type-contact-tags">
-    <vue-tags ref="typeContact" :active="type" :all="allTags" :element-count-for-start-arrow-scrolling="3" :tab-index="1" :tag-color-default="'#30A0EE'" :colors-enabled="true" :tag-list-label="'Select an option'" :placeholder="'Select an option'" @on-tag-removed="onTagRemoved" @on-tag-added="onTagAdded" />
+    <vue-tags ref="typeContact" :active="type" :all="allTags" :element-count-for-start-arrow-scrolling="3" :tab-index="1" :tag-color-default="'#30A0EE'" :colors-enabled="true" :tag-list-label="$t('Select_an_option')" :placeholder="$t('Select_an_option')" @on-tag-removed="onTagRemoved" @on-tag-added="onTagAdded" />
 	</div>
 </template>
 
@@ -11,11 +11,11 @@
             return {
                 allTags: [{
                     "id": 0,
-                    "name": "Client",
+                    "name": this.$t("Client"),
                     "slug": "client"
                 }, {
                     "id": 1,
-                    "name": "Expert",
+                    "name": this.$t("Expert"),
                     "slug": "expert"
                 }]
             }

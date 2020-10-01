@@ -4,17 +4,17 @@
             <div v-for="project in list" :key="project.id" class="post" >
                 <div style="width:70%" @click="viewproject(project)">
                     <h5>{{ project.name | trimLength}}</h5> <LabelNumReports style="position: absolute;" :project="project"></LabelNumReports>
-                    <span>{{ project.createdOn | formatDate }}</span>
+                    <span>{{ project.createdOn | formatDate($i18n.locale)  }}</span>
                     <p>{{ project.address | trimLength }}</p>
                 </div>
                 <div style="width:30%;">
-                    <button @click="createReport(project)"  class="button"><i class="fal fa-comment-alt-plus" ></i><p>add </p> report </button>                   
+                    <button @click="createReport(project)"  class="button"><i class="fal fa-comment-alt-plus" ></i><p>{{ $t("add") }} </p> {{ $t("report") }} </button>                   
                 </div>
             </div>
-             <router-link v-if="limit!=undefined &&  list.length!=projects.length" to="/projects">Show all projects</router-link>
+             <router-link v-if="limit!=undefined &&  list.length!=projects.length" to="/projects"> {{ $t("Show_all_projects") }}</router-link>
         </div>
         <div v-else>
-            <p class="no-results">There are currently no projects</p>
+            <p class="no-results">{{ $t("No_projects") }}</p>
         </div>
     </div>
 </template>
@@ -45,13 +45,13 @@
             }
         },
         filters: {
-            formatDate(val) {
+             formatDate(val, locale) {
                 if (!val) {
                     return '-'
                 }
 
-                let date = val.toDate()
-                return moment(date).fromNow()
+				let date = val.toDate()
+				return moment(date).locale(locale).fromNow()
             },
             trimLength(val) {
                 if (val.length < 200) {

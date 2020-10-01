@@ -1,10 +1,10 @@
 <template>
     <div class="report-modal c-modal">
         <div class="c-container">
-            <a @click="close()">close</a>
-            <h3>Report</h3>
+            <a @click="close()">{{ $t("close") }}</a>
+            <h3>{{ $t("Report") }}</h3>
             <button @click="viewPDF()" v-if="report && report.id!=undefined" :disabled="reportData.comment == ''" class="button">
-                view Pdf
+                {{ $t("View_PDF") }}
             </button>
 
             <form @submit.prevent>
@@ -12,8 +12,11 @@
                     <label for="rcomment"></label>
                     <textarea v-model.trim="reportData.comment" id="rcomment"></textarea>
                 </div>
-                <button @click="addReport()" v-if="!report || report.id==undefined" :disabled="reportData.comment == ''" class="button">add report</button>
-                <button @click="saveProject()" v-else :disabled="reportData == report" class="button">save changes</button>
+                <button @click="addReport()" v-if="!report || report.id==undefined" :disabled="reportData.comment == ''" class="button">{{ $t("Add_report") }}</button>
+                <div v-else>
+                <button @click="saveProject()"  :disabled="reportData == report" class="button">{{ $t("Save_changes") }}</button>
+                <button @click="deleteReport()" style="margin-left:10px;" class="button danger">{{ $t("Delete") }}</button>
+                </div>
             </form>
         </div>
     </div>
@@ -114,8 +117,8 @@
                     
                     if ((cursorY + (lineSpacing*textLines.length))> pageHeight) { // Auto-paging
                         let l = (pageHeight - cursorY) / lineSpacing;
-                        let ll = textLines.slice(0, ~~l).join(" ");
-                        texto = textLines.slice( ~~l).join(" ");
+                           let ll = textLines.slice(0, ~~l).join(" ");
+                        texto = textLines.slice(~~l).join(" ");
                         doc.text(ll , xPosition, cursorY, { maxWidth: textWidth, lineHeightFactor: 1.5, align: "justify" });
                         
                         doc.addPage();
@@ -126,7 +129,7 @@
                     cursorY +=  lineSpacing*textLines.length;
                 })
             },	
-               async  viewPDF() {
+            async  viewPDF() {
                 const doc = new jsPDF({
                     orientation: "portrait"
                 });
@@ -142,7 +145,7 @@
                     c.push( this.$store.getters.getContactById(cli).name);
                 }));
                 
-                doc.setTextColor(0).setFontSize(12).text(this.maybePluralize(this.project.clients.length, "Client") + ":", 20, posy);
+                doc.setTextColor(0).setFontSize(12).text(this.maybePluralize(this.project.clients.length, this.$t("Client")) + ":", 20, posy);
                 this.addWrappedTextJustify({
                     text: c.join("\r\n"), // Put a really long string here
                     textWidth: 150,
@@ -159,7 +162,7 @@
                 await Promise.all(this.project.experts.map(cli=>{
                     e.push( this.$store.getters.getContactById(cli).name);
                 }));
-                doc.setTextColor(0).setFontSize(12).text(this.maybePluralize(this.project.experts.length, "Expert") + ":", 20, posy);
+                doc.setTextColor(0).setFontSize(12).text(this.maybePluralize(this.project.experts.length, this.$t("Expert")) + ":", 20, posy);
                 this.addWrappedTextJustify({
                     text: e.join("\r\n"), // Put a really long string here
                     textWidth: 150,
@@ -178,7 +181,7 @@
 
 
 
-                doc.setTextColor(150).setFontSize(13).text(moment(this.report.createdOn.toDate()).format('LL'), 20, posy);
+                doc.setTextColor(150).setFontSize(13).text(moment(this.report.createdOn.toDate()).locale(this.$i18n.locale).format('LL'), 20, posy);
                 doc.setTextColor(0);
                 
                 posy+= 10;
@@ -195,8 +198,13 @@
                     pageWrapInitialYPosition: 30  // Initial offset from top of document when page-wrapping
                 });  
                 
-                doc.save(`test.pdf`);
+                doc.save(this.$t("Report") + `.pdf`);
                 
+            },
+            deleteReport(){
+                this.reportData.id = this.report.id;
+				this.$store.dispatch('deleteReport', this.reportData)
+				this.close();
             },
             close() {
                 this.reportData = {

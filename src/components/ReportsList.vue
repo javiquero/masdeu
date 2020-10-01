@@ -2,12 +2,12 @@
     <div class="reports-list">
         <div v-if="list.length">
             <div v-for="report in list" :key="report.id" class="post" @click="viewReport(report)">
-                <span>{{ report.createdOn | formatDate }}</span>
+                <span>{{ report.createdOn | formatDate($i18n.locale)  }}</span>
                 <p>{{ report.comment | trimLength }}</p>
             </div>
         </div>
         <div v-else>
-            <p class="no-results">There are currently no reports</p>
+            <p class="no-results"> {{ $t("No_reports") }}</p>
         </div>
     </div>
 </template>
@@ -59,13 +59,13 @@
             this.refreshList();
         },
         filters: {
-            formatDate(val) {
+             formatDate(val, locale) {
                 if (!val) {
                     return '-'
                 }
 
-                let date = val.toDate()
-                return moment(date).fromNow()
+				let date = val.toDate()
+				return moment(date).locale(locale).fromNow()
             },
             trimLength(val) {
                 if (val.length < 50) {

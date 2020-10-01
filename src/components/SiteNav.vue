@@ -7,15 +7,15 @@
                 </router-link>
                 <ul class="inline">
                     <li>
-                        <router-link to="/contacts">Contacts</router-link>
+                        <router-link to="/contacts">{{ $t("Contacts") }}</router-link>
                     </li>
                     <li>
-                        <router-link to="/projects">Projects</router-link>
+                        <router-link to="/projects">{{ $t("Projects") }}</router-link>
                     </li>
                     <!-- <li>
                       <router-link to="/settings">Settings</router-link> 
                     </li> -->
-                    <li><a @click="logout()">Logout</a></li>
+                    <li><a @click="logout()">{{ $t("Logout") }}</a></li>
                 </ul>
             </div>
         </section>

@@ -1,42 +1,42 @@
 <template>
     <div class="contact-modal c-modal" >
         <div class="c-container" >
-            <a @click="close()">close</a>
-            <h3>Contact</h3>
+            <a @click="close()">{{ $t("close") }}</a>
+            <h3>{{ $t("Contact") }}</h3>
             <form @submit.prevent>
                 <div>
-                    <label for="cmname">Name</label>
+                    <label for="cmname">{{ $t("Name") }}</label>
                     <input v-model.trim="contactData.name" type="text" placeholder="" id="cmname" />
                 </div>
                 <div>
-                    <label for="cmtype">Contact type</label>
+                    <label for="cmtype">{{ $t("Contact_type") }}</label>
                     <type-contact :type.sync="contactData.type"></type-contact>
                 </div>
                 <div>
-                    <label for="cmaddress">Address</label>
+                    <label for="cmaddress">{{ $t("Address") }}</label>
                     <input v-model.trim="contactData.address" type="text" placeholder="" id="cmaddress" />
                 </div>
                 <div>
-                    <label for="cmphone1">Phone number</label>
+                    <label for="cmphone1">{{ $t("Phone_number") }}</label>
                     <input v-model.trim="contactData.phone1" type="text" placeholder="" id="cmphone1" />
                 </div>
                 <div>
-                    <label for="cmphone2">Alternative phone number</label>
+                    <label for="cmphone2">{{ $t("Alternative_phone_number") }}</label>
                     <input v-model.trim="contactData.phone2" type="text" placeholder="" id="cmphone2" />
                 </div>
                 <div>
-                    <label for="cmemail">Email</label>
+                    <label for="cmemail">{{ $t("Email") }}</label>
                     <input v-model.trim="contactData.email" type="text" placeholder="" id="cmemail" />
                 </div>
                 <div>
-                    <label for="cmcomment">Comments</label>
+                    <label for="cmcomment">{{ $t("Comments") }}</label>
                     <textarea v-model.trim="contactData.comment" id="cmcomment"></textarea>
                 </div>
 
-                <button @click="addContact()" v-if="!contact || contact.id==undefined" :disabled="contactData.name == ''" class="button">add contact</button>
+                <button @click="addContact()" v-if="!contact || contact.id==undefined" :disabled="contactData.name == ''" class="button">{{ $t("Add_contact") }}</button>
 				<div v-else>
-					<button @click="saveContact()" :disabled="contactData == contact" class="button">save changes</button>
-					<button @click="deleteContact()" style="margin-left:10px;" class="button danger">delete</button>
+					<button @click="saveContact()" :disabled="contactData == contact" class="button">{{ $t("Save_changes") }}</button>
+					<button @click="deleteContact()" style="margin-left:10px;" class="button danger">{{ $t("Delete") }}</button>
 				</div>
                
             </form>

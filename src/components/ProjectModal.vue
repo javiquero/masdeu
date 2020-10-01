@@ -1,42 +1,42 @@
 <template>
     <div class="project-modal c-modal">
         <div class="c-container" >
-            <a @click="close()">close</a>
-            <h3 >Project</h3>
+            <a @click="close()">{{ $t("close") }}</a>
+            <h3 >{{ $t("Project") }}</h3>
 
             <form @submit.prevent>
                 <div>
-                    <label for="pname">Name</label>
+                    <label for="pname">{{ $t("Name") }}</label>
                     <input v-model.trim="projectData.name" type="text" class="focusable" placeholder="" id="pname" />
                 </div>
                 <div>
-                    <label for="paddress">Address</label>
+                    <label for="paddress">{{ $t("Address") }}</label>
                     <input v-model.trim="projectData.address" type="text" class="focusable" placeholder="" id="paddress" />
                 </div>
                 <div>
-                    <label for="pclient">Client</label>
+                    <label for="pclient">{{ $t("Client") }}</label>
                     <DropdownMulti :data="clients" title="" :value="projectData.clients" @add="addNewClient" fkey="name"></DropdownMulti>
                 </div>
                 <div>
-                    <label for="pexpert">Expert</label>
+                    <label for="pexpert">{{ $t("Expert") }}</label>
                     <DropdownMulti :data="experts" title="" :value="projectData.experts" @add="addNewExpert" fkey="name"></DropdownMulti>
                 </div>
 
                 <div>
-                    <label for="pcomment">Comments</label>
+                    <label for="pcomment">{{ $t("Comments") }}</label>
                     <textarea v-model.trim="projectData.comment" class="focusable" id="pcomment"></textarea>
                 </div>
                  <div v-if="project && project.id!=undefined" >
-                    <label for="pcomment">Reports</label>
+                    <label for="pcomment">{{ $t("Reports") }}</label>
                     <ReportsList :project="project"></ReportsList>
                 </div>
 
                 <button @click="addProject()" v-if="!project || project.id==undefined" :disabled="projectData.name == ''" class="button">add project</button>
-                <div v-else> <button @click="createReport(project)"   style="" class="button"><i class="fal fa-comment-alt-plus"></i>add report</button>   
+                <div v-else> <button @click="createReport(project)"   style="" class="button"><i class="fal fa-comment-alt-plus"></i>{{ $t("Add_report") }}</button>   
                 <br>
-                    <button @click="saveProject()" :disabled="projectData == project" class="button">save changes</button>
+                    <button @click="saveProject()" :disabled="projectData == project" class="button">{{ $t("Save_changes") }}</button>
                    
-                    <button @click="deleteProject()" style="margin-left:10px;" class="button danger">delete</button>
+                    <button @click="deleteProject()" style="margin-left:10px;" class="button danger">{{ $t("Delete") }}</button>
                 </div>
                 
             </form>

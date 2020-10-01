@@ -3,9 +3,9 @@
         <section>
             <div class="col1">
                 <div class="profile" style="text-align:center; padding-top:10px;">
-                    <h5 style="margin-bottom:20px;">Projects</h5>
+                    <h5 style="margin-bottom:20px;">{{ $t("Projects") }}</h5>
                     <div class="create-project">
-                        <button @click="createProject()" style="width:100%" class="button">Add project</button>
+                        <button @click="createProject()" style="width:100%" class="button">{{ $t("Add_project") }}</button>
                     </div>
                 </div>
             </div>

@@ -22,7 +22,8 @@
         },
         methods: {
             maybePluralize(count, noun, suffix = 's') {
-                return  `${count} ${noun}${count !== 1 ? suffix : ''}`
+				let t = this.$t(`${noun}${count !== 1 ? suffix : ''}`)
+                return  `${count} ${t}`
             },
         },
     }
