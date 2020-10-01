@@ -39,9 +39,12 @@ const mesasges = {
 		Project: "Project",
 		Start_typing_to_find: "Start typing to find",
 		Or_add_new_record: " or add a new record",
-		Add: "Add"
+		Add: "Add",
+		WhatDoYouWant: "What do you want to do today ?",
+		Hi: "Hi",
+		LastProjects: "Last projects",
+		LastContacts: "Last contacts"
 
-		
 	},
 	ca: {
 		Contacts: "Contactes",
@@ -83,7 +86,12 @@ const mesasges = {
 		Project: "Projecte",
 		Start_typing_to_find: "Comenceu a escriure per cercar",
 		Or_add_new_record: " o afegiu un registre nou",
-		Add: "Afeigir"
+		Add: "Afeigir",
+		WhatDoYouWant: "Què vols fer avui ?",
+		Hi: "Hola",
+		LastProjects: "Darrers projectes",
+		LastContacts: "Darrers contactes"
+
 		
 	}
 
