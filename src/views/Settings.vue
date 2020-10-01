@@ -18,6 +18,7 @@
         <select v-model.trim="lang" name="lang" id="lang">
         <option value="en">{{ $t("English") }}</option>
         <option value="ca">{{ $t("Catalan") }}</option>
+         <option value="es">{{ $t("Spanish") }}</option>
         </select>
         <button @click="updateProfile()" class="button">{{ $t("UpdateProfile") }}</button>
       </form>
