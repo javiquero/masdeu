@@ -117,10 +117,22 @@ import {
                 }));
             },
            addNewExpert(d){
-                this.$root.$emit('contact:open', {name: d, type:[{"name":"Expert","id":1,"slug":"expert"}]});
-           },
+                this.$root.$emit('contact:open',{name: d,
+                    address: '',
+                    phone1: '',
+                    phone2: '',
+                    type:[{"name":"Expert","id":1,"slug":"expert"}],
+                    email: '',
+                    comment: ''});
+            },
            addNewClient(d){
-                 this.$root.$emit('contact:open', {name: d, type:[{"name":"Client","id":0,"slug":"client"}]});
+                this.$root.$emit('contact:open',{name: d,
+                    address: '',
+                    phone1: '',
+                    phone2: '',
+                    type:[{"name":"Client","id":0,"slug":"client"}],
+                    email: '',
+                    comment: ''});
            },
             addProject(){
                 this.$store.dispatch('createProject', this.projectData)

@@ -130,7 +130,7 @@
 
 <style lang="scss">
 	.contact-modal {
-		z-index: 99999 !important;
+		z-index: 99999!important;
 		.c-container{
 			margin: 10vh auto 0 !important;
 		}
