@@ -84,13 +84,14 @@ const store = new Vuex.Store({
             dispatch('REPORTS_CONNECT');
             dispatch('PROJECTS_CONNECT')
         },
-        async signup({            dispatch        }, form) {
+        async signup({ dispatch }, form) {
             // sign user up
             const { user } = await fb.auth.createUserWithEmailAndPassword(form.email, form.password)
 
             // create user object in userCollections
             await fb.usersCollection.doc(user.uid).set({
-                name: form.name
+                name: form.name,
+                lang: 'en'
             })
 
             dispatch('fetchUserProfile', user)
@@ -201,34 +202,13 @@ const store = new Vuex.Store({
         async deleteReport({ state }, data) {		
             await fb.reportsCollection.doc(data.id).delete()            
         },
-
-        
-        async likePost({
-            commit
-        }, post) {
-            //   const userId = fb.auth.currentUser.uid
-            //   const docId = `${userId}_${post.id}`
-
-            //   // check if user has liked post
-            //   const doc = await fb.likesCollection.doc(docId).get()
-            //   if (doc.exists) { return }
-
-            //   // create post
-            //   await fb.likesCollection.doc(docId).set({
-            //     postId: post.id,
-            //     userId: userId
-            //   })
-
-            //   // update post likes count
-            //   fb.postsCollection.doc(post.id).update({
-            //     likes: post.likesCount + 1
-            //   })
-        },
+      
         async updateProfile({ dispatch }, user) {
             const userId = fb.auth.currentUser.uid
             // update user object
             const userRef = await fb.usersCollection.doc(userId).update({
-                name: user.name
+                name: user.name,
+                lang: user.lang
             })
 
             dispatch('fetchUserProfile', {

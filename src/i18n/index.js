@@ -48,7 +48,14 @@ const mesasges = {
 		UnableToDeleteRecord: "Unable to delete record",
 		AreYouSureYouWantToRemoveTheContact: "Are you sure you want to remove the contact?",
 		AreYouSureYouWantToRemoveTheReport: "Are you sure you want to remove the report?",
-		AreYouSureYouWantToRemoveTheProject: "Are you sure you want to remove the project?"
+		AreYouSureYouWantToRemoveTheProject: "Are you sure you want to remove the project?",
+		Settings: "Settings",
+		UpdateYourProfile: "Update your profile",
+		profileUpdated: "profile updated",
+		UpdateProfile: "Update Profile",
+		Lang:"Language",
+		English: "English",
+		Catalan:"Catalan"
 	},
 	ca: {
 		Contacts: "Contactes",
@@ -99,8 +106,14 @@ const mesasges = {
 		UnableToDeleteRecord: "No es pot suprimir el registre",
 		AreYouSureYouWantToRemoveTheContact: "Estàs segur que vols eliminar el contacte?",
 		AreYouSureYouWantToRemoveTheReport: "Estàs segur que vols eliminar el informe?",
-		AreYouSureYouWantToRemoveTheProject: "Estàs segur que vols eliminar el projecte?"
-
+		AreYouSureYouWantToRemoveTheProject: "Estàs segur que vols eliminar el projecte?",
+		Settings:"Configuració",
+		UpdateYourProfile: "Actualitzeu el vostre perfil",
+		profileUpdated: "perfil actualitzat",
+		UpdateProfile: "Actualitza el perfil",
+		Lang:"Idioma",
+		English: "Anglès",
+		Catalan:"Català"
 		
 	}
 

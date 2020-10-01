@@ -12,9 +12,9 @@
                     <li>
                         <router-link to="/projects">{{ $t("Projects") }}</router-link>
                     </li>
-                    <!-- <li>
-                      <router-link to="/settings">Settings</router-link> 
-                    </li> -->
+                    <li>
+                      <router-link to="/settings">{{ $t("Settings") }}</router-link> 
+                    </li>
                     <li><a @click="logout()">{{ $t("Logout") }}</a></li>
                 </ul>
             </div>

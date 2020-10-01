@@ -43,6 +43,11 @@
 				selectedReport: undefined,
 			}
 		},
+		watch: {
+			userProfile(val){
+				this.$i18n.locale=val.lang || "en";
+			}
+		},
 		methods: {
 			showContact(contact){
 				this.visibleContact=true;
@@ -72,7 +77,7 @@
 			}
 		},
         mounted() {
-            const $root = this.$root;
+			const $root = this.$root;
             $root.$on('contact:open', (contact) => this.showContact(contact));
 			$root.$on('contact:close', () => this.hideContact());
 			$root.$on('project:open', (project) => this.showProject(project));

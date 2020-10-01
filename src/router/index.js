@@ -11,7 +11,7 @@ Vue.use(VueRouter)
 
 const routes = [{
         path: '/',
-        name: 'Projects',
+        name: 'Main',
         component: Dashboard,
         meta: {
             requiresAuth: true

@@ -1,21 +1,25 @@
 <template>
   <section id="settings">
     <div class="col1">
-      <h3>Settings</h3>
-      <p>Update your profile</p>
+      <h3>{{ $t("Settings") }}</h3>
+      <p>{{ $t("UpdateYourProfile") }}</p>
 
       <transition name="fade">
-        <p v-if="showSuccess" class="success">profile updated</p>
+        <p v-if="showSuccess" class="success">{{ $t("profileUpdated") }}</p>
       </transition>
 
       <form @submit.prevent>
-        <label for="name">Name</label>
+        <label for="name">{{ $t("Name") }}</label>
         <input v-model.trim="name" type="text" :placeholder="userProfile.name" id="name" />
 
         <!-- <label for="title">Job Title</label>
         <input v-model.trim="title" type="text" :placeholder="userProfile.title" id="title" /> -->
-
-        <button @click="updateProfile()" class="button">Update Profile</button>
+        <label for="lang">{{ $t("Lang") }}</label>
+        <select v-model.trim="lang" name="lang" id="lang">
+        <option value="en">{{ $t("English") }}</option>
+        <option value="ca">{{ $t("Catalan") }}</option>
+        </select>
+        <button @click="updateProfile()" class="button">{{ $t("UpdateProfile") }}</button>
       </form>
     </div>
   </section>
@@ -28,6 +32,7 @@ export default {
   data() {
     return {
       name: '',
+      lang: 'en',
     //   title: '',
       showSuccess: false
     }
@@ -35,10 +40,19 @@ export default {
   computed: {
     ...mapState(['userProfile'])
   },
+  watch: {
+      userProfile(val){
+          this.lang = val.lang;
+      }
+  },
+  mounted() {
+      this.lang = this.userProfile.lang;
+  },
   methods: {
     updateProfile() {
       this.$store.dispatch('updateProfile', {
         name: this.name !== '' ? this.name : this.userProfile.name,
+        lang: this.lang !== '' ? this.lang : this.userProfile.lang,
         // title: this.title !== '' ? this.title : this.userProfile.title
       })
 
