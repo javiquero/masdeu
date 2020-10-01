@@ -202,7 +202,7 @@
                 });
             },
             click_show_drop(event) {
-                console.log("On focus");
+                // console.log("On focus");
                 this.dropActive = true;
                 event.preventDefault();
             },

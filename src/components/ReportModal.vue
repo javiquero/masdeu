@@ -82,6 +82,9 @@
                 this.$store.dispatch('createReport', this.reportData)
                 this.close();
 			},
+			maybePluralize(count, noun, suffix = 's') {
+                return  `${noun}${count !== 1 ? suffix : ''}`
+            },
 			addWrappedText({text, textWidth, doc, fontSize = 10, fontType = 'normal', lineSpacing = 7, xPosition = 10, initialYPosition = 10, pageWrapInitialYPosition = 10}) {
 				var textLines = doc.splitTextToSize(text, textWidth); // Split the text into lines
 				var pageHeight = doc.internal.pageSize.height - 20;        // Get page height, well use this for auto-paging
@@ -101,7 +104,7 @@
 			},
 			addWrappedTextJustify({text, textWidth, doc, fontSize = 10, fontType = 'normal', lineSpacing = 7, xPosition = 10, initialYPosition = 10, pageWrapInitialYPosition = 10}) {
 				let p = text.split("\n");
-				let pageHeight = doc.internal.pageSize.height - 20; 
+				let pageHeight = doc.internal.pageSize.height - 10; 
 				doc.setFontSize(fontSize);
 				let cursorY = initialYPosition;
 
@@ -110,21 +113,20 @@
 					// doc.setFontType(fontType); <<-- https://raw.githack.com/MrRio/jsPDF/master/docs/jsPDF.html#setFont
 					
 					if ((cursorY + (lineSpacing*textLines.length))> pageHeight) { // Auto-paging
+						let l = (pageHeight - cursorY) / lineSpacing;
+						let ll = textLines.slice(0, ~~l).join(" ");
+						texto = textLines.slice( ~~l).join(" ");
+						doc.text(ll , xPosition, cursorY, { maxWidth: textWidth, lineHeightFactor: 1.5, align: "justify" });
+						
 						doc.addPage();
 						cursorY = pageWrapInitialYPosition;
+						textLines = doc.splitTextToSize(texto, textWidth);
 					}
-	
-
-					doc.text(texto , xPosition, cursorY, { maxWidth: 170, lineHeightFactor: 1.5, align: "justify" });
+					doc.text(texto , xPosition, cursorY, { maxWidth: textWidth, lineHeightFactor: 1.5, align: "justify" });
 					cursorY +=  lineSpacing*textLines.length;
 				})
-			},
-			printBlockText(doc, text){
-				let p = text.split("\n");
-				
-				console.log(p);
-			},
-            viewPDF() {
+			},	
+           async  viewPDF() {
                     const doc = new jsPDF({
                         orientation: "portrait"
 					});
@@ -132,12 +134,55 @@
 					doc.setFontSize(30).text(this.project.name, 40, 35);
 					doc.setFontSize(15).text(this.project.address, 40, 42);
 					doc.addImage("logo.png", "PNG", 15, 23, 20, 20);
-					doc.setTextColor(150).setFontSize(13).text(moment(this.report.createdOn.toDate()).format('LL'), 20, 65);
+
+					let posy = 65;		
+					
+					let c = [];
+					await Promise.all(this.project.clients.map(cli=>{
+						c.push( this.$store.getters.getContactById(cli).name);
+					}));
+					
+					doc.setTextColor(0).setFontSize(12).text(this.maybePluralize(this.project.clients.length, "Client") + ":", 20, posy);
+					this.addWrappedTextJustify({
+						text: c.join("\r\n"), // Put a really long string here
+						textWidth: 150,
+						doc,
+						fontSize: '12',
+						fontType: 'normal',
+						lineSpacing: 7,               // Space between lines
+						xPosition: 40,                // Text offset from left of document
+						initialYPosition: posy,         // Initial offset from top of document; set based on prior objects in document
+					});  
+					posy += 7 * this.project.clients.length;  
+
+					let e = [];
+					await Promise.all(this.project.experts.map(cli=>{
+						e.push( this.$store.getters.getContactById(cli).name);
+					}));
+					doc.setTextColor(0).setFontSize(12).text(this.maybePluralize(this.project.experts.length, "Expert") + ":", 20, posy);
+					this.addWrappedTextJustify({
+						text: e.join("\r\n"), // Put a really long string here
+						textWidth: 150,
+						doc,
+						fontSize: '12',
+						fontType: 'normal',
+						lineSpacing: 7,               // Space between lines
+						xPosition: 40,                // Text offset from left of document
+						initialYPosition: posy,         // Initial offset from top of document; set based on prior objects in document
+					});  
+					posy += 7 * this.project.clients.length;  
+					
+					
+					
+					posy += 7;
+
+
+
+					doc.setTextColor(150).setFontSize(13).text(moment(this.report.createdOn.toDate()).format('LL'), 20, posy);
 					doc.setTextColor(0);
 					
-					// doc.text(this.reportData.comment, 20, 75, { maxWidth: 170, lineHeightFactor: 1.5, align: "justify" });
-					// this.printBlockText(doc, this.reportData.comment);
-					
+					posy+= 10;
+
 					this.addWrappedTextJustify({
 						text: this.reportData.comment, // Put a really long string here
 						textWidth: 170,
@@ -146,7 +191,7 @@
 						fontType: 'normal',
 						lineSpacing: 7,               // Space between lines
 						xPosition: 20,                // Text offset from left of document
-						initialYPosition: 75,         // Initial offset from top of document; set based on prior objects in document
+						initialYPosition: posy,         // Initial offset from top of document; set based on prior objects in document
 						pageWrapInitialYPosition: 30  // Initial offset from top of document when page-wrapping
 					});  
 					

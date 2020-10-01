@@ -83,7 +83,6 @@
 				h5 {max-width:100px;  white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
 			}
 			.tag {
-				position: absolute;
 				display:inline-block; font-size: 12px; background-color:#eee; padding: 5px; border-radius: 3px; margin-right:10px !important;
 			}
 			a{
