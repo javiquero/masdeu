@@ -115,7 +115,7 @@ const mesasges = {
 		Lang:"Idioma",
 		English: "Anglès",
 		Catalan:"Català"		,
-		Spanish: "Espanyol"
+		Spanish: "Castellà"
 	},
 	es: {
 		Contacts: "Contactos",
