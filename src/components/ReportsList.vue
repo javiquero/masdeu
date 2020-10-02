@@ -3,7 +3,7 @@
         <div v-if="list.length">
             <div v-for="report in list" :key="report.id" class="post" @click="viewReport(report)">
                 <span>{{ report.createdOn | formatDate($i18n.locale)  }}</span>
-                <p>{{ report.comment | trimLength }}</p>
+                <p>({{ report.createdOn | formatLongDate($i18n.locale)}}) - {{ report.comment | trimLength }}</p>
             </div>
         </div>
         <div v-else>
@@ -64,8 +64,14 @@
                     return '-'
                 }
 
-				let date = val.toDate()
-				return moment(date).locale(locale).fromNow()
+                let date = val.toDate()
+                return moment(date).locale(locale).fromNow()
+            },
+            formatLongDate(val, locale){
+                 if (!val) {
+                    return '-'
+                }
+                return moment(val.toDate()).locale(locale).format('LL');
             },
             trimLength(val) {
                 if (val.length < 50) {

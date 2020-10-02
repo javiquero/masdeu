@@ -2,7 +2,7 @@
     <div class="report-modal c-modal">
         <div class="c-container">
             <a @click="close()">{{ $t("close") }}</a>
-            <h3>{{ $t("Report") }}</h3>
+            <h3>{{ $t("Report") }} <span style="color: Gray; font-size: 17px; margin-left: 20px;">{{dt}}</span></h3>
             <button @click="viewPDF()" v-if="report && report.id!=undefined" :disabled="reportData.comment == ''" class="button">
                 {{ $t("View_PDF") }}
             </button>
@@ -38,7 +38,16 @@
                 }
 
             }
-        },
+		},
+		computed: {
+			dt(){
+				if (this.report){
+				return moment(this.report.createdOn.toDate()).locale(this.$i18n.locale).format('LL')
+				}else{
+					return '';
+				}
+			}
+		},
         watch: {
             report(val, oldval) {
                 let textarea = document.getElementById("rcomment");
@@ -133,55 +142,58 @@
                 const doc = new jsPDF({
                     orientation: "portrait"
                 });
-                
-                doc.setFontSize(30).text(this.project.name, 40, 35);
-                doc.setFontSize(15).text(this.project.address, 40, 42);
+				
+				let fontSize = 10;
+				let lineSpacing = (fontSize/2);
+
+                doc.setFontSize(fontSize+18).text(this.project.name, 40, 35);
+                doc.setFontSize(fontSize+3).text(this.project.address, 40, 42);
                 doc.addImage("logo.png", "PNG", 15, 23, 20, 20);
 
-                let posy = 65;		
+                let posy = 55;		
                 
                 let c = [];
                 await Promise.all(this.project.clients.map(cli=>{
                     c.push( this.$store.getters.getContactById(cli).name);
-                }));
-                
-                doc.setTextColor(0).setFontSize(12).text(this.maybePluralize(this.project.clients.length, this.$t("Client")) + ":", 20, posy);
-                this.addWrappedTextJustify({
-                    text: c.join("\r\n"), // Put a really long string here
-                    textWidth: 150,
-                    doc,
-                    fontSize: '12',
-                    fontType: 'normal',
-                    lineSpacing: 7,               // Space between lines
-                    xPosition: 40,                // Text offset from left of document
-                    initialYPosition: posy,         // Initial offset from top of document; set based on prior objects in document
-                });  
-                posy += 7 * this.project.clients.length;  
+                }));				
+				if (c.length>0) {
+					doc.setTextColor(0).setFontSize(fontSize).text(this.maybePluralize(this.project.clients.length, this.$t("Client")) + ":", 20, posy);
+					this.addWrappedTextJustify({
+						text: c.join("\r\n"), // Put a really long string here
+						textWidth: 150,
+						doc,
+						fontSize: fontSize,
+						fontType: 'normal',
+						lineSpacing: lineSpacing,               // Space between lines
+						xPosition: 40,                // Text offset from left of document
+						initialYPosition: posy,         // Initial offset from top of document; set based on prior objects in document
+					});  
+					posy += lineSpacing * this.project.clients.length;  
+				}
 
                 let e = [];
                 await Promise.all(this.project.experts.map(cli=>{
                     e.push( this.$store.getters.getContactById(cli).name);
-                }));
-                doc.setTextColor(0).setFontSize(12).text(this.maybePluralize(this.project.experts.length, this.$t("Expert")) + ":", 20, posy);
-                this.addWrappedTextJustify({
-                    text: e.join("\r\n"), // Put a really long string here
-                    textWidth: 150,
-                    doc,
-                    fontSize: '12',
-                    fontType: 'normal',
-                    lineSpacing: 7,               // Space between lines
-                    xPosition: 40,                // Text offset from left of document
-                    initialYPosition: posy,         // Initial offset from top of document; set based on prior objects in document
-                });  
-                posy += 7 * this.project.experts.length;  
-                
-                
-                
-                posy += 7;
+				}));
+				if (e.length>0) {
+					doc.setTextColor(0).setFontSize(fontSize).text(this.maybePluralize(this.project.experts.length, this.$t("Expert")) + ":", 20, posy);
+					this.addWrappedTextJustify({
+						text: e.join("\r\n"), // Put a really long string here
+						textWidth: 150,
+						doc,
+						fontSize: fontSize,
+						fontType: 'normal',
+						lineSpacing: lineSpacing,               // Space between lines
+						xPosition: 40,                // Text offset from left of document
+						initialYPosition: posy,         // Initial offset from top of document; set based on prior objects in document
+					});  
+					posy += lineSpacing * this.project.experts.length;  
+				}
+                posy += lineSpacing;
 
 
 
-                doc.setTextColor(150).setFontSize(13).text(moment(this.report.createdOn.toDate()).locale(this.$i18n.locale).format('LL'), 20, posy);
+                doc.setTextColor(150).setFontSize(fontSize).text(moment(this.report.createdOn.toDate()).locale(this.$i18n.locale).format('LL'), 20, posy);
                 doc.setTextColor(0);
                 
                 posy+= 10;
@@ -190,9 +202,9 @@
                     text: this.reportData.comment, // Put a really long string here
                     textWidth: 170,
                     doc,
-                    fontSize: '12',
+                    fontSize: fontSize,
                     fontType: 'normal',
-                    lineSpacing: 7,               // Space between lines
+                    lineSpacing: lineSpacing,               // Space between lines
                     xPosition: 20,                // Text offset from left of document
                     initialYPosition: posy,         // Initial offset from top of document; set based on prior objects in document
                     pageWrapInitialYPosition: 30  // Initial offset from top of document when page-wrapping
