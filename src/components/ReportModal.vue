@@ -182,7 +182,7 @@
                     // console.log(this.pdf.pages, texto);
                     doc.html(texto , {callback:function (doc){
                         return resolve(doc);
-                    }, x: 20, y:y, html2canvas: { scale: .5 }, });
+                    }, x: 20, y:y, html2canvas: { scale: 1 }, });
                 });
             },
            async addHtml2(doc, text, x, y){
