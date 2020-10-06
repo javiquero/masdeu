@@ -188,7 +188,7 @@
            async addHtml2(doc, text, x, y){
                 return new Promise( (resolve, reject) =>{
                      let pageWrapInitialYPosition = 20;
-                    let textWidth = 152;
+                    let textWidth = 240;
                     doc.setFontSize(13);
                     let dim = doc.getTextDimensions('Text');
                     let pageHeight = doc.internal.pageSize.height - 10;                     
