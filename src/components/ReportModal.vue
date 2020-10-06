@@ -164,7 +164,7 @@
                 return new Promise((resolve, reject) =>{
                     let texto = "";
                     let sty =" style='font-size: 2px;width: 350px; margin-bottom: 10px; ' ";
-                    doc.setFontSize(8);
+                    doc.setFontSize(10);
                     for (let i = 0; i < this.pdf.pages.length; i++)  {
                         let p = this.pdf.pages[i];                        
                         const arrayOfNormalAndBoldText = p.split('**');
