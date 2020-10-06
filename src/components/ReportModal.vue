@@ -163,8 +163,8 @@
             printPages(doc, y){
                 return new Promise((resolve, reject) =>{
                     let texto = "";
-                    let sty =" style='font-size: 2px;width: 350px; margin-bottom: 10px; ' ";
-                    doc.setFontSize(10);
+                    let sty =" style='font-size: 3px;width: 350px; margin-bottom: 5px; ' ";
+                    // doc.setFontSize(22);
                     for (let i = 0; i < this.pdf.pages.length; i++)  {
                         let p = this.pdf.pages[i];                        
                         const arrayOfNormalAndBoldText = p.split('**');
@@ -176,7 +176,7 @@
                                 t += "<b>" + txt + "</b>"
                             }
                         });
-                        let st = i==this.pdf.pages.length-1 ? "" : "style='margin-bottom:50px;'";
+                        let st = i==this.pdf.pages.length-1 ? "" : "style='margin-bottom:40px;'";
                         texto+="<div " + st + " ><p "+sty+" >"+t.replace(/\n\n/g, "</p><p "+sty+" >").replace(/\n/g, "<br/>")+"</p></div>";
                     }
                     // console.log(this.pdf.pages, texto);
@@ -189,11 +189,11 @@
                 return new Promise( (resolve, reject) =>{
                      let pageWrapInitialYPosition = 20;
                     let textWidth = 152;
-                    doc.setFontSize(8);
+                    doc.setFontSize(13);
                     let dim = doc.getTextDimensions('Text');
-                    let pageHeight = doc.internal.pageSize.height - 0;                     
+                    let pageHeight = doc.internal.pageSize.height - 10;                     
                     // let lines = text.split("\n");
-                    let lineSpacing = dim.h +2;
+                    let lineSpacing = dim.h //+1.8;
                     let possibleLines = (pageHeight - y) / lineSpacing
                     let textLines = doc.splitTextToSize(text, textWidth);
                     
