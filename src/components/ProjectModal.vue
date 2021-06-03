@@ -21,6 +21,11 @@
                     <label for="pexpert">{{ $t("Expert") }}</label>
                     <DropdownMulti :data="experts" title="" :value="projectData.experts" @add="addNewExpert" fkey="name"></DropdownMulti>
                 </div>
+                <div>
+                    <label for="pprovider">{{ $t("Provider") }}</label>
+                    <DropdownMulti :data="providers" title="" :value="projectData.providers" @add="addNewProvider" fkey="name"></DropdownMulti>
+                </div>
+                
 
                 <div>
                     <label for="pcomment">{{ $t("Comments") }}</label>
@@ -59,12 +64,14 @@ import {
             return {
                 clients: [],
                 experts:[],
+                providers:[],
                 mode:'add',
                 projectData: {
                     name: '',
                     address: '',
                     clients: [],
                     experts: [],
+                    providers:[],
                     status: 'Active',
                     comment: ''
                 }
@@ -78,6 +85,7 @@ import {
                         address: '',
                         clients: [],
                         experts: [],
+                        providers:[],
                         status: 'Active',
                         comment: ''
                     }
@@ -88,6 +96,7 @@ import {
                         address: this.project.address,
                         clients: this.project.clients,
                         experts: this.project.experts,
+                        providers: this.project.providers,
                         status: this.project.status,
                         comment: this.project.comment
                     }
@@ -103,18 +112,16 @@ import {
         methods: {
              async refreshList() {
                 this.clients = [];
+                this.experts = [];
+                this.providers = [];
                 await Promise.all(this.contacts.map(async (contact) => {
                     await Promise.all(contact.type.map(async (t) => {
                         if (t.slug == "client") this.clients.push(contact);
+                        if (t.slug == "expert") this.experts.push(contact);
+                        if (t.slug == "provider") this.experts.push(contact);
                     }));
                 }));
 
-                this.experts = [];
-                await Promise.all(this.contacts.map(async (contact) => {
-                    await Promise.all(contact.type.map(async (t) => {
-                        if (t.slug == "expert") this.experts.push(contact);
-                    }));
-                }));
             },
            addNewExpert(d){
                 this.$root.$emit('contact:open',{name: d,
@@ -122,6 +129,15 @@ import {
                     phone1: '',
                     phone2: '',
                     type:[{"name":"Expert","id":1,"slug":"expert"}],
+                    email: '',
+                    comment: ''});
+            },
+            addNewProvider(d){
+                this.$root.$emit('contact:open',{name: d,
+                    address: '',
+                    phone1: '',
+                    phone2: '',
+                    type:[{"name":"Provider","id":2,"slug":"provider"}],
                     email: '',
                     comment: ''});
             },
@@ -160,6 +176,7 @@ import {
                     address: '',
                     clients: [],
                     experts: [],
+                    providers: [],
                     status: 'Active',
                     comment: ''
                 }

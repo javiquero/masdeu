@@ -17,6 +17,10 @@
                     "id": 1,
                     "name": this.$t("Expert"),
                     "slug": "expert"
+                }, {
+                    "id": 2,
+                    "name": this.$t("Provider"),
+                    "slug": "provider"
                 }]
             }
         },

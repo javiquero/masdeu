@@ -159,6 +159,7 @@ const store = new Vuex.Store({
                 address: data.address,
                 clients: data.clients,
                 experts: data.experts,
+                providers: data.providers,
                 status: data.status,
                 comment: data.comment
             })
@@ -170,6 +171,7 @@ const store = new Vuex.Store({
                 address: data.address,
                 clients: data.clients,
                 experts: data.experts,
+                providers: data.providers,
                 status: data.status,
                 comment: data.comment
             })
@@ -247,7 +249,8 @@ const store = new Vuex.Store({
             await Promise.all(state.projects.map(async p => { 
                 await Promise.all(
                     p.clients.map(c => { if (c == id) if (!r.includes(p)) r.push(p) }),
-                    p.experts.map(c => { if (c == id) if (!r.includes(p)) r.push(p) })
+                    p.experts.map(c => { if (c == id) if (!r.includes(p)) r.push(p) }),
+                    p.providers.map(c => { if (c == id) if (!r.includes(p)) r.push(p) })
                 )
             }))
             return r;

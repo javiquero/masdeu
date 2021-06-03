@@ -15,6 +15,7 @@
                     <button @click="refreshList('All')" :disabled="filter=='All'" class="button" style="margin-right:10px;">{{$t("All")}}</button>
                     <button @click="refreshList('clients')" :disabled="filter=='clients'" class="button">{{$t("Clients")}}</button>
                     <button @click="refreshList('experts')" :disabled="filter=='experts'" class="button">{{$t("Experts")}}</button>
+                    <button @click="refreshList('providers')" :disabled="filter=='providers'" class="button">{{$t("Providers")}}</button>
                 </div>
                 <ContactsList :contacts="contactsList"></ContactsList>
 
@@ -29,7 +30,7 @@
     import {
         mapState
     } from 'vuex'
-    import moment from 'moment'
+    // import moment from 'moment'
 
     export default {
         components: {
@@ -64,6 +65,13 @@
                     await Promise.all(this.contacts.map(async (contact) => {
                         await Promise.all(contact.type.map(async (t) => {
                             if (t.slug == "expert") this.contactsList.push(contact);
+                        }));
+                    }));
+                } else if (this.filter == "providers") {
+                    this.contactsList = [];
+                    await Promise.all(this.contacts.map(async (contact) => {
+                        await Promise.all(contact.type.map(async (t) => {
+                            if (t.slug == "provider") this.contactsList.push(contact);
                         }));
                     }));
                 } else {

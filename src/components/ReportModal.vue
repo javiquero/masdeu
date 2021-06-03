@@ -299,9 +299,11 @@
                 }
 
                 let e = [];
-                await Promise.all(this.project.experts.map(cli=>{
-                    e.push( this.$store.getters.getContactById(cli).name);
-                }));
+                if (this.project.experts && this.project.experts.length>0){
+                    await Promise.all(this.project.experts.map(cli=>{
+                        e.push( this.$store.getters.getContactById(cli).name);
+                    }));
+                }
                 if (e.length>0) {
                     doc.setTextColor(0).setFontSize(fontSize).text(this.maybePluralize(this.project.experts.length, this.$t("Expert")) + ":", 20, posy);
                     this.addWrappedTextJustify({
@@ -316,6 +318,28 @@
                     });  
                     posy += lineSpacing * this.project.experts.length;  
                 }
+
+                let p = [];
+                if (this.project.providers && this.project.providers.length>0){
+                    await Promise.all(this.project.providers.map(cli=>{
+                        p.push( this.$store.getters.getContactById(cli).name);
+                    }));
+                }
+                if (p.length>0) {
+                    doc.setTextColor(0).setFontSize(fontSize).text(this.maybePluralize(this.project.providers.length, this.$t("Provider")) + ":", 20, posy);
+                    this.addWrappedTextJustify({
+                        text: p.join("\r\n"), // Put a really long string here
+                        textWidth: 150,
+                        doc,
+                        fontSize: fontSize,
+                        fontType: 'normal',
+                        lineSpacing: lineSpacing,               // Space between lines
+                        xPosition: 40,                // Text offset from left of document
+                        initialYPosition: posy,         // Initial offset from top of document; set based on prior objects in document
+                    });  
+                    posy += lineSpacing * this.project.providers.length;  
+                }
+
                 posy += lineSpacing;
 
 
