@@ -4,7 +4,7 @@
     <section>
       <div class="col1" style="padding-top: 15vh;">
 		<div style="text-align:center; margin-left:-40px">
-			<img src="logo2.png" width="350" alt="logo">
+			<img src="/logo2.png" width="350" alt="logo">
 		</div>
         <h1>Masdeu</h1>
         <p>
