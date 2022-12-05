@@ -1,11 +1,14 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+// import * as Vue from 'vue'
+// import Vuex from 'vuex'
 import * as fb from '../firebase'
 import router from '../router/index'
+import { createStore } from 'vuex'
 
-Vue.use(Vuex)
 
-const store = new Vuex.Store({
+// Vue.use(Vuex)
+
+// const store = new Vuex.Store({
+const store = createStore({
     state: {
         userProfile: {},
         projects: [],
@@ -102,7 +105,7 @@ const store = new Vuex.Store({
             commit('setUserProfile', userProfile.data())
 
             // change route to dashboard
-            if (router.currentRoute.path === '/login') {
+            if (router.currentRoute._value.path === '/login') {
                 router.push('/')
             }
         },

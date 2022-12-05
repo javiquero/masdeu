@@ -3,13 +3,13 @@
         <div v-if="contacts && contacts.length">
             <div v-for="contact in list" :key="contact.id" class="post" >
                 <div style="width:70%" @click="viewContact(contact)">
-                    <h5 >{{ contact.name | trimLength}}</h5> 
+                    <h5 >{{ trimLength(contact.name) }}</h5> 
 					<p class="tag" v-for="type in contact.type" :key="type.id" >
 						{{ $t(type.name) }}
 					</p>
-                    <span>{{ contact.createdOn | formatDate($i18n.locale) }}</span>
-                    <p>{{ contact.address | trimLength }}</p>
-                    <p>{{ contact.phone1 | trimLength }}</p>
+                    <span>{{ formatDate(contact.createdOn) }}</span>
+                    <p>{{ trimLength(contact.address) }}</p>
+                    <p>{{ trimLength(contact.phone1) }}</p>
                 </div>
                 <div style="width:30%;">
                     <a v-if="contact.phone1 || contact.phone2" :href="'tel:'+ contact.phone1 || contact.phone2" class="button">
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-             <router-link  v-if="limit!=undefined && list.length!=contacts.length" to="/contacts">{{ $t("Show_all_contacts") }}</router-link>
+            <router-link  v-if="limit!=undefined && list.length!=contacts.length" to="/contacts">{{ $t("Show_all_contacts") }}</router-link>
         </div>
         <div v-else>
             <p class="no-results">{{ $t("No_contacts") }}</p>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+    import eventBus from '@/event-bus.js'
     import moment from 'moment'
 
     export default {
@@ -46,23 +47,16 @@
         },
         methods: {
             viewContact(contact) {
-                this.$root.$emit('contact:open', contact);
+                eventBus.$emit('contact:open', contact);
             }
-		},
-		
-        filters: {
-            formatDate(val, locale) {
-                if (!val) {
-                    return '-'
-                }
-
-				let date = val.toDate()
-				return moment(date).locale(locale).fromNow()
+		},		
+        methods: {
+            formatDate(val) {
+                if (!val)  return '-';
+				return moment( val.toDate() ).locale(this.$i18n.locale).fromNow()
             },
             trimLength(val) {
-                if (val.length < 200) {
-                    return val
-                }
+                if (val.length < 200) return val;
                 return `${val.substring(0, 200)}...`
             }
         }

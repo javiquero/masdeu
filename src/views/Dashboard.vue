@@ -14,16 +14,16 @@
             </div>
             <div class="col2">
                 <!-- <div style="margin-bottom:20px;" v-show="projects.length>0">
-                     <h4 >Last report</h4>
-                     <ReportsList :project="projects?projects[0]:undefined"></ReportsList>
+                    <h4 >Last report</h4>
+                    <ReportsList :project="projects?projects[0]:undefined"></ReportsList>
                 </div> -->
                 <div style="margin-bottom:20px;" v-show="projects.length>0">
-                     <h4 >{{$t("LastProjects")}}</h4>
-                     <ProjectsList :limit="5" :projects="projects"></ProjectsList>
+                    <h4 >{{$t("LastProjects")}}</h4>
+                    <ProjectsList :limit="5" :projects="projects"></ProjectsList>
                 </div>
                 <div style="margin-bottom:20px;" v-show="contacts.length>0">
                     <h4 >{{$t("LastContacts")}}</h4>
-                     <ContactsList :limit="5" :contacts="contacts"></ContactsList>
+                    <ContactsList :limit="5" :contacts="contacts"></ContactsList>
                 </div>   
             </div>
         </section>
@@ -36,8 +36,9 @@
         mapState
     } from 'vuex'
     // import ReportsList from '@/components/ReportsList'
-    import ProjectsList from '@/components/ProjectsList'
-    import ContactsList from '@/components/ContactsList'
+    import ProjectsList from '@/components/ProjectsList.vue'
+    import ContactsList from '@/components/ContactsList.vue'
+    import eventBus from '@/event-bus.js'
 
     export default {
         components: {
@@ -53,10 +54,10 @@
         },
         methods: {
             createProject() {
-                this.$root.$emit('project:open', undefined);
+                eventBus.$emit('project:open', undefined);
             },
             createContact() {
-                this.$root.$emit('contact:open', undefined);
+                eventBus.$emit('contact:open', undefined);
             }
         }
     }

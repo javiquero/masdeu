@@ -3,7 +3,6 @@ function validate(binding) {
         console.warn('[Vue-click-outside:] provided expression', binding.expression, 'is not a function.')
         return false
     }
-
     return true
 }
 
@@ -23,7 +22,6 @@ function isPopup(popupItem, elements) {
             return false
         }
     }
-
     return false
 }
 
@@ -31,7 +29,7 @@ function isServer(vNode) {
     return typeof vNode.componentInstance !== 'undefined' && vNode.componentInstance.$isServer
 }
 
-exports = module.exports = {
+export default {
     bind: function(el, binding, vNode) {
         if (!validate(binding)) return
 
@@ -66,3 +64,4 @@ exports = module.exports = {
         delete el.__vueClickOutside__
     }
 }
+

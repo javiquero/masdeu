@@ -1,5 +1,4 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Dashboard from '../views/Dashboard.vue'
 import Contacts from '../views/Contacts.vue'
 import Projects from '../views/Projects.vue'
@@ -7,9 +6,10 @@ import {
     auth
 } from '../firebase'
 
-Vue.use(VueRouter)
-
-const routes = [{
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
         path: '/',
         name: 'Main',
         component: Dashboard,
@@ -46,17 +46,12 @@ const routes = [{
             requiresAuth: true
         }
     }
-]
-
-const router = new VueRouter({
-    mode: 'history',
-    base: process.env.BASE_URL,
-    routes
+  ]
 })
 
 router.beforeEach((to, from, next) => {
     const requiresAuth = to.matched.some(x => x.meta.requiresAuth)
-
+    if (auth.currentUser && to.path == '/login') return next('/')
     if (requiresAuth && !auth.currentUser) {
         next('/login')
     } else {

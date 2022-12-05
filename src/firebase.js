@@ -1,17 +1,17 @@
-import * as firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firestore'
+import  firebase from 'firebase/compat/app'
+import 'firebase/compat/auth'
+import 'firebase/compat/firestore'
 
 // firebase init
 const firebaseConfig = {
-	apiKey: process.env.VUE_APP_APIKEY,
-    authDomain: process.env.VUE_APP_AUTHDOMAIN,
-    databaseURL: process.env.VUE_APP_DATABASEURL,
-    projectId: process.env.VUE_APP_PROJECTID,
-    storageBucket: process.env.VUE_APP_STORAGEBUCKET,
-    messagingSenderId: process.env.VUE_APP_MESSAGINGSENDERID,
-    appId: process.env.VUE_APP_APPID,
-    measurementId: process.env.VUE_APP_MEASUREMENTID
+	apiKey: import.meta.env.VITE_APP_APIKEY,
+    authDomain: import.meta.env.VITE_APP_AUTHDOMAIN,
+    databaseURL: import.meta.env.VITE_APP_DATABASEURL,
+    projectId: import.meta.env.VITE_APP_PROJECTID,
+    storageBucket: import.meta.env.VITE_APP_STORAGEBUCKET,
+    messagingSenderId: import.meta.env.VITE_APP_MESSAGINGSENDERID,
+    appId: import.meta.env.VITE_APP_APPID,
+    measurementId: import.meta.env.VITE_APP_MEASUREMENTID
 }
 firebase.initializeApp(firebaseConfig)
 

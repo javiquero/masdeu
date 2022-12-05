@@ -18,7 +18,8 @@
 </template>
 
 <script>
-    import ProjectsList from '@/components/ProjectsList'
+    import ProjectsList from '@/components/ProjectsList.vue'
+    import eventBus from '@/event-bus.js'
     import {
         mapState
     } from 'vuex'
@@ -36,7 +37,7 @@
         },
         methods: {
             createProject() {
-                this.$root.$emit('project:open', undefined);
+                eventBus.$emit('project:open', undefined);
             },
             
         },

@@ -3,9 +3,9 @@
         <div v-if="projects && projects.length">
             <div v-for="project in list" :key="project.id" class="post" >
                 <div style="width:70%" @click="viewproject(project)">
-                    <h5>{{ project.name | trimLength}}</h5> <LabelNumReports style="position: absolute;" :project="project"></LabelNumReports>
-                    <span>{{ project.createdOn | formatDate($i18n.locale)  }}</span>
-                    <p>{{ project.address | trimLength }}</p>
+                    <h5>{{ trimLength(project.name)}}</h5> <LabelNumReports style="position: absolute;" :project="project"></LabelNumReports>
+                    <span>{{ formatDate(project.createdOn)}}</span>
+                    <p>{{ trimLength(project.address) }}</p>
                 </div>
                 <div style="width:30%;">
                     <button @click="createReport(project)"  class="button"><i class="fal fa-comment-alt-plus" ></i><p>{{ $t("add") }} </p> {{ $t("report") }} </button>                   
@@ -20,7 +20,8 @@
 </template>
 
 <script>
-    import LabelNumReports from "@/components/LabelNumReports"
+    import eventBus from '@/event-bus.js'
+    import LabelNumReports from "@/components/LabelNumReports.vue"
     import moment from 'moment'
   
     export default {
@@ -38,25 +39,17 @@
         },
         methods: {
             createReport(project){
-                this.$root.$emit('report:open', {project:project, report: undefined});
+                eventBus.$emit('report:open', {project:project, report: undefined});
             },
             viewproject(project) {
-                this.$root.$emit('project:open', project);
-            }
-        },
-        filters: {
-             formatDate(val, locale) {
-                if (!val) {
-                    return '-'
-                }
-
-				let date = val.toDate()
-				return moment(date).locale(locale).fromNow()
+                eventBus.$emit('project:open', project);
+            },
+            formatDate(val) {
+                if (!val) return '-';
+                return moment(val.toDate()).locale(this.$i18n.locale).fromNow()
             },
             trimLength(val) {
-                if (val.length < 200) {
-                    return val
-                }
+                if (val.length < 200) return val 
                 return `${val.substring(0, 200)}...`
             }
         }

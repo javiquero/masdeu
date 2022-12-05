@@ -45,7 +45,7 @@
 </template>
 
 <script>
-    import TypeContact from "@/components/TypeContact"
+    import TypeContact from "@/components/TypeContact.vue"
     export default {
         components: {
             TypeContact

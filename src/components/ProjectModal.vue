@@ -39,8 +39,7 @@
                 <button @click="addProject()" v-if="!project || project.id==undefined" :disabled="projectData.name == ''" class="button">add project</button>
                 <div v-else> <button @click="createReport(project)"   style="" class="button"><i class="fal fa-comment-alt-plus"></i>{{ $t("Add_report") }}</button>   
                 <br>
-                    <button @click="saveProject()" :disabled="projectData == project" class="button">{{ $t("Save_changes") }}</button>
-                   
+                    <button @click="saveProject()" :disabled="projectData == project" class="button">{{ $t("Save_changes") }}</button>                   
                     <button @click="deleteProject()" style="margin-left:10px;" class="button danger">{{ $t("Delete") }}</button>
                 </div>
                 
@@ -50,11 +49,12 @@
 </template>
 
 <script>
-import {
+    import eventBus from '@/event-bus.js'    
+    import {
         mapState
     } from 'vuex'
-    import ReportsList from '@/components/ReportsList'
-    import DropdownMulti from '@/components/dropdownMulti'
+    import ReportsList from '@/components/ReportsList.vue'
+    import DropdownMulti from '@/components/dropdownMulti.vue'
     export default {
         components: {
             DropdownMulti, ReportsList
@@ -110,7 +110,7 @@ import {
             ...mapState(['contacts']),
         },
         methods: {
-             async refreshList() {
+            async refreshList() {
                 this.clients = [];
                 this.experts = [];
                 this.providers = [];
@@ -123,8 +123,8 @@ import {
                 }));
 
             },
-           addNewExpert(d){
-                this.$root.$emit('contact:open',{name: d,
+            addNewExpert(d){
+                eventBus.$emit('contact:open',{name: d,
                     address: '',
                     phone1: '',
                     phone2: '',
@@ -133,7 +133,7 @@ import {
                     comment: ''});
             },
             addNewProvider(d){
-                this.$root.$emit('contact:open',{name: d,
+                eventBus.$emit('contact:open',{name: d,
                     address: '',
                     phone1: '',
                     phone2: '',
@@ -141,25 +141,25 @@ import {
                     email: '',
                     comment: ''});
             },
-           addNewClient(d){
-                this.$root.$emit('contact:open',{name: d,
+            addNewClient(d){
+                eventBus.$emit('contact:open',{name: d,
                     address: '',
                     phone1: '',
                     phone2: '',
                     type:[{"name":"Client","id":0,"slug":"client"}],
                     email: '',
                     comment: ''});
-           },
+            },
             addProject(){
                 this.$store.dispatch('createProject', this.projectData)
-                 this.close();
+                this.close();
             },
             saveProject(){
                 this.projectData.id = this.project.id;
                 this.$store.dispatch('saveProject', this.projectData)
-                 this.close();
+                this.close();
             },
-             deleteProject(){
+            deleteProject(){
                 var r = confirm(this.$t("AreYouSureYouWantToRemoveTheProject"));
                 if (r == true) {
                     this.projectData.id = this.project.id;
@@ -168,7 +168,7 @@ import {
                 }                        
             },
             createReport(project){
-                this.$root.$emit('report:open', {project:project, report: undefined});
+                eventBus.$emit('report:open', {project:project, report: undefined});
             },
             close(){
                 this.projectData={

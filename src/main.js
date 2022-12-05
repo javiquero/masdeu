@@ -1,43 +1,30 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import { auth } from './firebase'
 import './assets/scss/app.scss'
-import VueI18n from 'vue-i18n'
-
+import { auth } from './firebase'
+import { createI18n } from 'vue-i18n'
 import messages from './i18n'
 
-Vue.use(VueI18n)
-const i18n = new VueI18n({
+const i18n = createI18n({
 	locale: 'ca', // set locale
 	messages, // set locale messages
-  })
+})
 
-
-import { VueTags } from 'vue-tags-component';
-Vue.component('vue-tags', VueTags);
-
-Vue.config.productionTip = false
-
-let app
+const app = createApp(App)
+// console.log(app)
+app.use(store)
+app.use(router)
+app.use(i18n)
 auth.onAuthStateChanged(user => {
-  if (!app) {
-    app = new Vue({
-      router,
-      store,
-		render: h => h(App),
-		beforeCreate() {
-			store.dispatch('CONTACTS_CONNECT');
-			store.dispatch('REPORTS_CONNECT');
-			store.dispatch('PROJECTS_CONNECT')
-			
-		},
-		i18n,
-    }).$mount('#app')
-  }
+	if (user) store.dispatch('fetchUserProfile', user)   
 
-  if (user) {
-    store.dispatch('fetchUserProfile', user)
-  }
+	store.dispatch('CONTACTS_CONNECT');
+	store.dispatch('REPORTS_CONNECT');
+	store.dispatch('PROJECTS_CONNECT');
+
+    app.mount('#app')
+//     console.log("----- MOUNTED -----")
+//     console.log(app)
 })

@@ -5,7 +5,11 @@
 </template>
 
 <script>
+    import vueTags from '@/components/VueTags.vue'
     export default {
+        components: {
+            vueTags
+        },
         props: ['type'],
         data() {
             return {

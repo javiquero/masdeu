@@ -43,7 +43,7 @@ Welcome to the best web application ever created by mankind. That application is
           </div>
           <div>
             <label for="password2">Password</label>
-            <input v-model.trim="signupForm.password" type="password" placeholder="min 6 characters" id="password2" />
+            <input v-model.trim="signupForm.password" type="password" autocomplete="false" placeholder="min 6 characters" id="password2" />
           </div>
           <button @click="signup()" class="button">Sign Up</button>
           <div class="extras">
@@ -56,7 +56,7 @@ Welcome to the best web application ever created by mankind. That application is
 </template>
 
 <script>
-import PasswordReset from '@/components/PasswordReset'
+import PasswordReset from '@/components/PasswordReset.vue'
 
 export default {
   components: {

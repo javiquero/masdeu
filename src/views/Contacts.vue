@@ -26,7 +26,8 @@
 </template>
 
 <script>
-    import ContactsList from '@/components/ContactsList'
+    import ContactsList from '@/components/ContactsList.vue'
+    import eventBus from '@/event-bus.js'
     import {
         mapState
     } from 'vuex'
@@ -79,7 +80,7 @@
                 }
             },
             createContact() {
-                this.$root.$emit('contact:open', undefined);
+                eventBus.$emit('contact:open', undefined);
             }
         },
         mounted() {

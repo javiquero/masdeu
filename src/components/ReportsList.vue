@@ -2,8 +2,8 @@
     <div class="reports-list">
         <div v-if="list.length">
             <div v-for="report in list" :key="report.id" class="post" @click="viewReport(report)">
-                <span>{{ report.createdOn | formatDate($i18n.locale)  }}</span>
-                <p>({{ report.createdOn | formatLongDate($i18n.locale)}}) - {{ report.comment | trimLength }}</p>
+                <span>{{ formatDate(report.createdOn) }}</span>
+                <p>({{ formatLongDate(report.createdOn) }}) - {{ trimLength(report.comment) }}</p>
             </div>
         </div>
         <div v-else>
@@ -14,6 +14,7 @@
 
 <script>
     import moment from 'moment'
+    import eventBus from '@/event-bus.js'
     import {
         mapState
     } from 'vuex'
@@ -39,7 +40,7 @@
         },
         methods: {
             viewReport(report) {
-                this.$root.$emit('report:open', {
+                eventBus.$emit('report:open', {
                     report: report,
                     project: this.project
                 });
@@ -53,32 +54,21 @@
                     this.list = [];
                 }
             },
-
+            formatDate(val) {
+                if (!val) return '-';
+                return moment(val.toDate()).locale(this.$i18n.locale).fromNow()
+            },
+            formatLongDate(val){
+                if (!val) return '-';
+                return moment(val.toDate()).locale(this.$i18n.locale).format('LL');
+            },
+            trimLength(val) {
+                if (val.length < 50)  return val;
+                return `${val.substring(0, 50)}...`
+            }
         },
         mounted() {
             this.refreshList();
-        },
-        filters: {
-             formatDate(val, locale) {
-                if (!val) {
-                    return '-'
-                }
-
-                let date = val.toDate()
-                return moment(date).locale(locale).fromNow()
-            },
-            formatLongDate(val, locale){
-                 if (!val) {
-                    return '-'
-                }
-                return moment(val.toDate()).locale(locale).format('LL');
-            },
-            trimLength(val) {
-                if (val.length < 50) {
-                    return val
-                }
-                return `${val.substring(0, 50)}...`
-            }
         }
     }
 
