@@ -166,7 +166,7 @@
                     let sty =" style='font-size: 3px;width: 350px; margin-bottom: 5px; ' ";
                     // doc.setFontSize(22);
                     for (let i = 0; i < this.pdf.pages.length; i++)  {
-                        let p = this.pdf.pages[i];                        
+                        let p = this.pdf.pages[i]; 
                         const arrayOfNormalAndBoldText = p.split('**');
                         let t = "";
                         arrayOfNormalAndBoldText.map((txt, i) => {
@@ -186,16 +186,29 @@
                 });
             },
            async addHtml2(doc, text, x, y){
-                return new Promise( (resolve, reject) =>{
+                return new Promise( async (resolve, reject) =>{
                      let pageWrapInitialYPosition = 20;
                     let textWidth = 240;
                     doc.setFontSize(13);
                     let dim = doc.getTextDimensions('Text');
                     let pageHeight = doc.internal.pageSize.height - 10;                     
-                    // let lines = text.split("\n");
+                    let lines = text.split("\n");
+                    let textLines = [];
+                    // await Promise.all(lines.map(line=>{
+                    //     let ln = doc.splitTextToSize(line, textWidth);
+                    //     textLines.push (...ln)
+                    // }));
+                    for (let i = 0; i < lines.length; i++)  {
+                        let ln = doc.splitTextToSize(lines[i], textWidth);
+                        // if (ln.length>1)
+                        //     for (let x=0; x<ln.length-1; x++){
+                        //         ln[x] +="\n"
+                        //     }
+                        textLines.push (...ln)
+                    }
                     let lineSpacing = dim.h //+1.8;
                     let possibleLines = (pageHeight - y) / lineSpacing
-                    let textLines = doc.splitTextToSize(text, textWidth);
+                    // let textLines = doc.splitTextToSize(text, textWidth);
                     
                     // console.log(textLines,  lineSpacing, possibleLines);
                     if (possibleLines< textLines.length){
@@ -208,7 +221,7 @@
                             })
                         // });
                     }else{
-                        this.pdf.pages.push(text)
+                        this.pdf.pages.push(textLines.join("\n"))
                         // this.printPharagraph(doc, text, x, y).then((doc=>{
                             return resolve(doc);
                         // }));
@@ -277,8 +290,7 @@
                 doc.setFontSize(fontSize+3).text(this.project.address, 40, 42);
                 doc.addImage("logo.jpg", "JPG", 15, 23, 20, 20);
 
-                let posy = 55;		
-                
+                let posy = 55;
                 let c = [];
                 await Promise.all(this.project.clients.map(cli=>{
                     c.push( this.$store.getters.getContactById(cli).name);
@@ -287,7 +299,7 @@
                     doc.setTextColor(0).setFontSize(fontSize).text(this.maybePluralize(this.project.clients.length, this.$t("Client")) + ":", 20, posy);
                     this.addWrappedTextJustify({
                         text: c.join("\r\n"), // Put a really long string here
-                        textWidth: 100,
+                        textWidth: 150,
                         doc,
                         fontSize: fontSize,
                         fontType: 'normal',
@@ -308,7 +320,7 @@
                     doc.setTextColor(0).setFontSize(fontSize).text(this.maybePluralize(this.project.experts.length, this.$t("Expert")) + ":", 20, posy);
                     this.addWrappedTextJustify({
                         text: e.join("\r\n"), // Put a really long string here
-                        textWidth: 100,
+                        textWidth: 150,
                         doc,
                         fontSize: fontSize,
                         fontType: 'normal',
@@ -329,7 +341,7 @@
                     doc.setTextColor(0).setFontSize(fontSize).text(this.maybePluralize(this.project.providers.length, this.$t("Provider")) + ":", 20, posy);
                     this.addWrappedTextJustify({
                         text: p.join("\r\n"), // Put a really long string here
-                        textWidth: 100,
+                        textWidth: 150,
                         doc,
                         fontSize: fontSize,
                         fontType: 'normal',
