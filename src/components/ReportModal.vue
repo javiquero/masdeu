@@ -256,12 +256,12 @@
                         let l = (pageHeight - cursorY) / lineSpacing;
                         let ll = textLines.slice(0, ~~l).join(" ");
                         texto = textLines.slice(~~l).join(" ");
-                        doc.text(ll , xPosition, cursorY, { maxWidth: textWidth, lineHeightFactor: 1.5, align: "justify" });
+                        doc.text(ll , xPosition, cursorY, { maxWidth: textWidth, lineHeightFactor: 1.5, align: "lfet" });
                         doc.addPage();
                         cursorY = pageWrapInitialYPosition;
                         textLines = doc.splitTextToSize(texto, textWidth);
                     }
-                    doc.text(texto , xPosition, cursorY, { maxWidth: textWidth, lineHeightFactor: 1.5, align: "justify" });
+                    doc.text(texto , xPosition, cursorY, { maxWidth: textWidth, lineHeightFactor: 1.5, align: "left" });
                     cursorY +=  lineSpacing*textLines.length;
                 })
             },	
@@ -287,7 +287,7 @@
                     doc.setTextColor(0).setFontSize(fontSize).text(this.maybePluralize(this.project.clients.length, this.$t("Client")) + ":", 20, posy);
                     this.addWrappedTextJustify({
                         text: c.join("\r\n"), // Put a really long string here
-                        textWidth: 150,
+                        textWidth: 100,
                         doc,
                         fontSize: fontSize,
                         fontType: 'normal',
@@ -308,7 +308,7 @@
                     doc.setTextColor(0).setFontSize(fontSize).text(this.maybePluralize(this.project.experts.length, this.$t("Expert")) + ":", 20, posy);
                     this.addWrappedTextJustify({
                         text: e.join("\r\n"), // Put a really long string here
-                        textWidth: 150,
+                        textWidth: 100,
                         doc,
                         fontSize: fontSize,
                         fontType: 'normal',
@@ -329,7 +329,7 @@
                     doc.setTextColor(0).setFontSize(fontSize).text(this.maybePluralize(this.project.providers.length, this.$t("Provider")) + ":", 20, posy);
                     this.addWrappedTextJustify({
                         text: p.join("\r\n"), // Put a really long string here
-                        textWidth: 150,
+                        textWidth: 100,
                         doc,
                         fontSize: fontSize,
                         fontType: 'normal',
